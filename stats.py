@@ -128,7 +128,7 @@ T_CPU_CHART = True
 T_GPU_CHART = True
 timer = pygame.time.Clock()
 shell = win32com.client.Dispatch("WScript.Shell")
-os.environ['SDL_VIDEO_WINDOW_POS'] = '-1080, 1640'
+os.environ['SDL_VIDEO_WINDOW_POS'] = '-1080, 1617'
 pygame.init()
 display = pygame.display.set_mode((1080, 480))
 pygame.display.set_caption("Stats")
@@ -279,7 +279,6 @@ def drawing():
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
     global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART
-    pygame.display.set_icon(pygame.image.load('data/stats.ico'))
     chart_time_list = [i for i in range(1, 61)]
     chart_cpu_list = []
     chart_gpu_list = []
@@ -358,14 +357,15 @@ def drawing():
                 print_text('FREE: ' + str(inf['Диск H'][2]) + '/GB/', 480, 297, font_size=28)
                 print_text(str(inf['Диск H'][3]) + '%', 690, 237, font_size=28)
             #
-            pygame.draw.rect(display, (128, 128, 128), (20, 20, 420, 310))
+            pygame.draw.rect(display, (128, 128, 128), (20, 20, 420, 100))
+            pygame.draw.rect(display, (128, 128, 128), (20, 130, 420, 200))
             #
             print_text('AUX-{0} CGP-{1} SYS-{2}'.format(temp['AUX'], temp['CPU_GP'], temp['SYS']),
-                       50 + 5, 40, font_size=30)
+                       55, 40, font_size=30)
             print_text('PCH-{0} PCI-{1} VRM-{2}'.format(temp['PCH'], temp['PCI_E'], temp['VRM']),
-                       50 + 5, 75, font_size=30)
+                       55, 75, font_size=30)
 
-            print_text('QWE-11 QWE-11 QWE-11', 32, 55 + 40 * 2, font_size=30)
+            print_text('Какой-то текст потом', 55, 60 + 40 * 2, font_size=30)
             # Обновляется CPU
             cpu = int(sum(inf['CPU']) / 12)
             z = 4 * cpu
@@ -438,9 +438,6 @@ def drawing():
                 image.save('data/fig.png')
                 image = pygame.image.load("data/fig.png")
                 display.blit(image, (460, 10))
-            # Настройка кнопки CPU
-            # print_text('C', 320, 60, font_size=30,
-            #            font_color=(17, 255, 0) if CPU_CHART else (255, 36, 0))
             print_text('C', 485, 13, font_size=30, font_color=(17, 255, 0) if CPU_CHART else (255, 36, 0))
             print_text('G', 505, 13, font_size=30, font_color=(17, 255, 0) if GPU_CHART else (255, 36, 0))
             print_text('R', 525, 13, font_size=30, font_color=(17, 255, 0) if RAM_CHART else (255, 36, 0))
@@ -448,23 +445,7 @@ def drawing():
             print_text('cpu', 555, 23, font_size=15, font_color=(17, 255, 0) if T_CPU_CHART else (255, 36, 0))
             print_text('T', 580, 13, font_size=30, font_color=(17, 255, 0) if T_GPU_CHART else (255, 36, 0))
             print_text('gpu', 590, 23, font_size=15, font_color=(17, 255, 0) if T_GPU_CHART else (255, 36, 0))
-            # # Настройка кнопки GPU
-            # print_text('G', 340, 60, font_size=30,
-            #            font_color=(17, 255, 0) if GPU_CHART else (255, 36, 0))
-            # # Настройка кнопки RAM
-            # print_text('R', 360, 60, font_size=30,
-            #            font_color=(17, 255, 0) if RAM_CHART else (255, 36, 0))
-            # # Настройка кнопки температуры CPU
-            # print_text('T', 380, 60, font_size=30,
-            #            font_color=(17, 255, 0) if T_CPU_CHART else (255, 36, 0))
-            # print_text('cp', 390, 70, font_size=15,
-            #            font_color=(17, 255, 0) if T_CPU_CHART else (255, 36, 0))
-            # # Настройка кнопки температуры GPU
-            # print_text('T', 405, 60, font_size=30,
-            #            font_color=(17, 255, 0) if T_GPU_CHART else (255, 36, 0))
-            # print_text('gp', 415, 70, font_size=15,
-            #            font_color=(17, 255, 0) if T_GPU_CHART else (255, 36, 0))
-            
+
             pygame.display.update()
             time_of_the_las_passage = datetime.datetime.now()
         for en in pygame.event.get():

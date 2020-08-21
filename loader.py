@@ -2,16 +2,16 @@ import shutil
 
 path_list = [
     [
-        r'C:\Users\ilyak\PycharmProjects\stats\data\\',
-        r'C:\Users\ilyak\PycharmProjects\stats\dist\main\data'
+        r'D:\PycharmProjects\stats\data\\',
+        r'D:\PycharmProjects\stats\dist\stats\data'
     ],
     [
-        r'C:\Users\ilyak\PycharmProjects\stats\venv\Lib\site-packages\\kaleido\\',
-        r'C:\Users\ilyak\PycharmProjects\stats\\dist\main\kaleido'
+        r'D:\PycharmProjects\stats\venv\Lib\site-packages\\kaleido\\',
+        r'D:\PycharmProjects\stats\\dist\stats\kaleido'
     ],
     [
-        r'C:\Users\ilyak\PycharmProjects\stats\venv\Lib\site-packages\plotly\\',
-        r'C:\Users\ilyak\PycharmProjects\stats\dist\main\plotly'
+        r'D:\PycharmProjects\stats\venv\Lib\site-packages\plotly\\',
+        r'D:\PycharmProjects\stats\dist\stats\plotly'
     ]
 
 ]
