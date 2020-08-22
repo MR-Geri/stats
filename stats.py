@@ -54,6 +54,14 @@ APP = [
     },
     {
         'name': 'Фотошоп',
+        'x': 27 + 60 * 3,
+        'y': 355,
+        'icon': pygame.image.load('data/icon/adobe-aftereffects.png'),
+        'os_open': r'D:\Adobe\Adobe After Effects CC 2019\Support Files\AfterFX.exe',
+        'if_os_open_name': True
+    },
+    {
+        'name': 'Фотошоп',
         'x': 27 + 60 * 4,
         'y': 355,
         'icon': pygame.image.load('data/icon/photoshop.png'),
@@ -73,7 +81,7 @@ APP = [
         'x': 27 + 60 * 6,
         'y': 355,
         'icon': pygame.image.load('data/icon/project.png'),
-        'os_open': r'C:\Users\ilyak\PycharmProjects',
+        'os_open': r'D:\PycharmProjects',
         'if_os_open_name': True
     },
     {
@@ -121,7 +129,7 @@ APP = [
         'x': 27 + 60 * 6,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/bot.png'),
-        'os_open': r'D:\PycharmProjects\bot_vk\dist\bot\bot.exe',
+        'os_open': r'C:\Users\ilyak\Desktop\bot.lnk',
         'if_os_open_name': True
     },
 ]
@@ -140,6 +148,7 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = '-1080, 1617'
 pygame.init()
 display = pygame.display.set_mode((1080, 480))
 pygame.display.set_caption("Stats")
+pygame.display.set_icon(pygame.image.load("data/icon/stats.ico"))
 inf_except = {"CPU": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               "RAM": [16329, 0, 0, 0],
               "Диск C": [90.4, 0, 0, 0],
@@ -238,16 +247,18 @@ def drawing():
         global last, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART
         mouse, click = pygame.mouse.get_pos(), pygame.mouse.get_pressed()[0]
         # Показ CPU графика
-        if 483 < mouse[0] < 503 and 40 > mouse[1] > 13 and click == 1 and last == 0:
+        if 502 < mouse[0] < 522 and 40 > mouse[1] > 13 and click == 1 and last == 0:
             CPU_CHART = False if CPU_CHART else True
-        if 503 < mouse[0] < 523 and 40 > mouse[1] > 13 and click == 1 and last == 0:
+        if 522 < mouse[0] < 542 and 40 > mouse[1] > 13 and click == 1 and last == 0:
             GPU_CHART = False if GPU_CHART else True
-        if 523 < mouse[0] < 543 and 40 > mouse[1] > 13 and click == 1 and last == 0:
+        if 542 < mouse[0] < 562 and 40 > mouse[1] > 13 and click == 1 and last == 0:
             RAM_CHART = False if RAM_CHART else True
-        if 543 < mouse[0] < 578 and 40 > mouse[1] > 13 and click == 1 and last == 0:
+        if 562 < mouse[0] < 597 and 40 > mouse[1] > 13 and click == 1 and last == 0:
             T_CPU_CHART = False if T_CPU_CHART else True
-        if 578 < mouse[0] < 613 and 40 > mouse[1] > 13 and click == 1 and last == 0:
+        if 597 < mouse[0] < 632 and 40 > mouse[1] > 13 and click == 1 and last == 0:
             T_GPU_CHART = False if T_GPU_CHART else True
+        if 478 < mouse[0] < 500 and 40 > mouse[1] > 13 and click == 1 and last == 0:
+            CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART = False, False, False, False, False
         # Открытие приложений
         for app in APP:
             if app['x'] + 60 > mouse[0] > app['x'] and app['y'] + 60 > mouse[1] > app['y']\
@@ -446,13 +457,15 @@ def drawing():
                 image.save('data/fig.png')
                 image = pygame.image.load("data/fig.png")
                 display.blit(image, (460, 10))
-            print_text('C', 485, 13, font_size=30, font_color=(17, 255, 0) if CPU_CHART else (255, 36, 0))
-            print_text('G', 505, 13, font_size=30, font_color=(17, 255, 0) if GPU_CHART else (255, 36, 0))
-            print_text('R', 525, 13, font_size=30, font_color=(17, 255, 0) if RAM_CHART else (255, 36, 0))
-            print_text('T', 545, 13, font_size=30, font_color=(17, 255, 0) if T_CPU_CHART else (255, 36, 0))
-            print_text('cpu', 555, 23, font_size=15, font_color=(17, 255, 0) if T_CPU_CHART else (255, 36, 0))
-            print_text('T', 580, 13, font_size=30, font_color=(17, 255, 0) if T_GPU_CHART else (255, 36, 0))
-            print_text('gpu', 590, 23, font_size=15, font_color=(17, 255, 0) if T_GPU_CHART else (255, 36, 0))
+                print_text('all', 480, 15, font_size=12, font_color=(255, 255, 255))
+                print_text('off', 480, 26, font_size=12, font_color=(255, 255, 255))
+                print_text('C', 504, 13, font_size=30, font_color=(17, 255, 0) if CPU_CHART else (255, 36, 0))
+                print_text('G', 524, 13, font_size=30, font_color=(17, 255, 0) if GPU_CHART else (255, 36, 0))
+                print_text('R', 544, 13, font_size=30, font_color=(17, 255, 0) if RAM_CHART else (255, 36, 0))
+                print_text('T', 564, 13, font_size=30, font_color=(17, 255, 0) if T_CPU_CHART else (255, 36, 0))
+                print_text('cpu', 574, 23, font_size=15, font_color=(17, 255, 0) if T_CPU_CHART else (255, 36, 0))
+                print_text('T', 599, 13, font_size=30, font_color=(17, 255, 0) if T_GPU_CHART else (255, 36, 0))
+                print_text('gpu', 609, 23, font_size=15, font_color=(17, 255, 0) if T_GPU_CHART else (255, 36, 0))
 
             pygame.display.update()
             time_of_the_las_passage = datetime.datetime.now()
