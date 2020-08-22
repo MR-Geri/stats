@@ -116,6 +116,14 @@ APP = [
         'os_open': r'C:\Users\ilyak\Downloads',
         'if_os_open_name': True
     },
+    {
+        'name': 'Bot_VK',
+        'x': 27 + 60 * 6,
+        'y': 355 + 60,
+        'icon': pygame.image.load('data/icon/bot.png'),
+        'os_open': r'D:\PycharmProjects\bot_vk\dist\bot\bot.exe',
+        'if_os_open_name': True
+    },
 ]
 last_active_windows = ''
 time_of_the_las_passage = datetime.datetime.now()
