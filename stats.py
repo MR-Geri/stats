@@ -137,6 +137,8 @@ last_active_windows = ''
 time_of_the_las_passage = datetime.datetime.now()
 tim = 0
 last = 0
+running_line = ['0', 'Какой-то текст потом', '2', '3']
+ind_running_line = 0
 CPU_CHART = True
 GPU_CHART = True
 RAM_CHART = True
@@ -215,7 +217,6 @@ def info():
 
 
 def temperatures():
-
     """Считывание температуры с датчиков"""
 
     handle.Hardware[0].SubHardware[0].Update()
@@ -232,19 +233,17 @@ def temperatures():
 
 
 def drawing():
-
     """Вывод всей информации на экран"""
 
     def changing_the_language():
         global last_active_windows
         active_windows = win32gui.GetWindowText(win32gui.GetForegroundWindow())
         if last_active_windows != active_windows and active_windows == 'WhatsApp':
-            print('WhatsApp')
             keyboard_layout('68748313')
         last_active_windows = win32gui.GetWindowText(win32gui.GetForegroundWindow())
 
     def click_button():
-        global last, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART
+        global last, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, running_line, ind_running_line
         mouse, click = pygame.mouse.get_pos(), pygame.mouse.get_pressed()[0]
         # Показ CPU графика
         if 502 < mouse[0] < 522 and 40 > mouse[1] > 13 and click == 1 and last == 0:
@@ -259,9 +258,13 @@ def drawing():
             T_GPU_CHART = False if T_GPU_CHART else True
         if 478 < mouse[0] < 500 and 40 > mouse[1] > 13 and click == 1 and last == 0:
             CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART = False, False, False, False, False
+        if 25 < mouse[0] < 25 + 48 and 137 + 48 > mouse[1] > 137 and click == 1 and last == 0:
+            ind_running_line = len(running_line) - 1 if ind_running_line == 0 else ind_running_line - 1
+        if 400 < mouse[0] < 400 + 48 and 137 + 48 > mouse[1] > 137 and click == 1 and last == 0:
+            ind_running_line = 0 if ind_running_line == len(running_line) - 1 else ind_running_line + 1
         # Открытие приложений
         for app in APP:
-            if app['x'] + 60 > mouse[0] > app['x'] and app['y'] + 60 > mouse[1] > app['y']\
+            if app['x'] + 60 > mouse[0] > app['x'] and app['y'] + 60 > mouse[1] > app['y'] \
                     and click == 1 and last == 0:
                 print('Открытие', app['name'])
                 if app['if_os_open_name']:
@@ -294,10 +297,12 @@ def drawing():
         elif stats < 75:
             return 102, 102, 0
         return 255, 36, 0
+
     # Ram: Всего, Доступно, Использовано (мб), Проценты
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
-    global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART
+    global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, \
+        ind_running_line, running_line
     chart_time_list = [i for i in range(1, 61)]
     chart_cpu_list = []
     chart_gpu_list = []
@@ -380,11 +385,13 @@ def drawing():
             pygame.draw.rect(display, (128, 128, 128), (20, 130, 420, 200))
             #
             print_text('AUX-{0} CGP-{1} SYS-{2}'.format(temp['AUX'], temp['CPU_GP'], temp['SYS']),
-                       55, 40, font_size=30)
+                       58, 40, font_size=30)
             print_text('PCH-{0} PCI-{1} VRM-{2}'.format(temp['PCH'], temp['PCI_E'], temp['VRM']),
-                       55, 75, font_size=30)
+                       58, 75, font_size=30)
 
-            print_text('Какой-то текст потом', 55, 60 + 40 * 2, font_size=30)
+            display.blit(pygame.image.load('data/button_left.png'), (25, 137))
+            display.blit(pygame.image.load('data/button_right.png'), (400, 137))
+            print_text(running_line[ind_running_line], 58, 140, font_size=30)
             # Обновляется CPU
             cpu = int(sum(inf['CPU']) / 12)
             z = 4 * cpu
@@ -407,7 +414,7 @@ def drawing():
             print_text('RAM-' + str(inf['RAM'][0]) + 'MB        ' + str(inf['RAM'][2]) + '%',
                        32, 58 + 40 * 5, font_size=30)
             print_text('use-' + str(inf['RAM'][3]) + 'MB free-' + str(inf['RAM'][1]) + 'MB',
-                       35, 58 + 40 * 6, font_size=30)
+                       42, 58 + 40 * 6, font_size=30)
             if CPU_CHART or GPU_CHART or RAM_CHART or T_CPU_CHART or T_GPU_CHART:
                 if len(chart_cpu_list) >= len(chart_time_list):
                     chart_cpu_list = chart_cpu_list[1:]
