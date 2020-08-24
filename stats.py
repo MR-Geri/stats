@@ -429,7 +429,7 @@ def drawing():
             print_text('RAM-' + str(inf['RAM'][0]) + 'MB        ' + str(inf['RAM'][2]) + '%',
                        32, 58 + 40 * 5, font_size=30)
             print_text('use-' + str(inf['RAM'][3]) + 'MB free-' + str(inf['RAM'][1]) + 'MB',
-                       42, 58 + 40 * 6, font_size=30)
+                       33, 58 + 40 * 6, font_size=30)
             if CPU_CHART or GPU_CHART or RAM_CHART or T_CPU_CHART or T_GPU_CHART:
                 if len(chart_cpu_list) >= len(chart_time_list):
                     chart_cpu_list = chart_cpu_list[1:]
