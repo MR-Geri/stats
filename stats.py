@@ -140,6 +140,7 @@ tim = 0
 last = 0
 running_line = ['' for _ in range(4)]
 ind_running_line = 0
+ind_ind_running_line = 0
 CPU_CHART = True
 GPU_CHART = True
 RAM_CHART = True
@@ -226,25 +227,48 @@ def temperatures():
 
 def weather():
     global running_line
-    data = []
-    url = f'https://yandex.ru/pogoda/lipetsk/details?via=ms#{datetime.datetime.now().day}'
-    html = requests.get(url)
-    soup = BeautifulSoup(html.text, 'html.parser')
-    for item in soup.find_all('div', class_='card'):
-        add = [
-            ' '.join(i.get_text(strip=True) for i in item.find_all('td', class_='weather-table__body-cell weather-'
-                                                                                'table__body-cell_type_feels-like')),
-            ' '.join(i.get_text(strip=True) for i in item.find_all('td', class_='weather-table__body-cell weather-'
-                                                                                'table__body-cell_type_humidity'))
-        ]
-        if len(add[0]) != 0:
-            data.append(add)
-        if len(data) == 2:
-            break
-    running_line[0] = (data[0][0], 67, 140, (35, 255, 0), 30)
-    running_line[1] = (data[0][1], 103, 140, (35, 255, 0), 30)
-    running_line[2] = (data[1][0], 67, 140, (102, 0, 255), 30)
-    running_line[3] = (data[1][1], 103, 140, (102, 0, 255), 30)
+    headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                             'Chrome/84.0.4147.86 YaBrowser/20.8.0.894 Yowser/2.5 Yptp/1.23 Safari/537.36',
+               'accept': '*/*'}
+    soup = BeautifulSoup(requests.get('https://world-weather.ru/pogoda/russia/lipetsk/', headers=headers).text,
+                         'html.parser')
+    # Ощущается как °C
+    # Вероятность осадков %
+    # Давление мм рт. ст.
+    # Скорость ветра м/с
+    # Влажность воздуха
+    items = soup.find_all('div', class_='pane')
+    data = [[['' for _ in range(5)], ()] for _ in range(4)]
+    # (35, 255, 0)
+    # (102, 0, 255)
+    # (102, 102, 0)
+    # (255, 36, 0)
+    col = [(35, 255, 0), (102, 0, 255), (102, 102, 0), (255, 36, 0)]
+    for i in range(4):
+        s = ''
+        for te in items[i].find_all('td', class_=f'weather-feeling'):
+            s += ' ' * (4 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
+        data[i][0][0] = s.rstrip()
+        s = ''
+        for te in items[i].find_all('td', class_=f'weather-probability'):
+            s += ' ' * (4 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
+        data[i][0][1] = s.rstrip()
+        s = ''
+        for te in items[i].find_all('td', class_=f'weather-pressure'):
+            s += ' ' * (3 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
+        data[i][0][2] = s.rstrip()
+        s = ''
+        for te in items[i].find_all('td', class_=f'weather-wind'):
+            s += ' ' * (4 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
+        data[i][0][3] = s.rstrip()
+        s = ''
+        for te in items[i].find_all('td', class_=f'weather-humidity'):
+            s += ' ' * (4 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
+        data[i][0][4] = s.rstrip()
+        data[i][1] = col[i]
+    for i in data:
+        print(i)
+    running_line[0:4] = data
 
 
 def drawing():
@@ -258,7 +282,8 @@ def drawing():
         last_active_windows = win32gui.GetWindowText(win32gui.GetForegroundWindow())
 
     def click_button():
-        global last, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, running_line, ind_running_line
+        global last, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, running_line, ind_running_line, \
+            ind_ind_running_line
         mouse, click = pygame.mouse.get_pos(), pygame.mouse.get_pressed()[0]
         # Показ CPU графика
         if 502 < mouse[0] < 522 and 40 > mouse[1] > 13 and click == 1 and last == 0:
@@ -275,8 +300,13 @@ def drawing():
             CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART = False, False, False, False, False
         if 25 < mouse[0] < 25 + 48 and 137 + 48 > mouse[1] > 137 and click == 1 and last == 0:
             ind_running_line = len(running_line) - 1 if ind_running_line == 0 else ind_running_line - 1
+            ind_ind_running_line = 0
         if 400 < mouse[0] < 400 + 48 and 137 + 48 > mouse[1] > 137 and click == 1 and last == 0:
             ind_running_line = 0 if ind_running_line == len(running_line) - 1 else ind_running_line + 1
+            ind_ind_running_line = 0
+        if 25 + 48 < mouse[0] < 400 and 137 + 48 > mouse[1] > 137 and click == 1 and last == 0:
+            ind_ind_running_line = 0 if ind_ind_running_line == len(running_line[ind_running_line][0]) - 1 \
+                else ind_ind_running_line + 1
         # Открытие приложений
         for app in APP:
             if app['x'] + 60 > mouse[0] > app['x'] and app['y'] + 60 > mouse[1] > app['y'] \
@@ -317,7 +347,7 @@ def drawing():
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
     global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, \
-        ind_running_line, running_line, inf
+        ind_running_line, running_line, inf, ind_ind_running_line
     chart_time_list = [i for i in range(1, 61)]
     chart_cpu_list = []
     chart_gpu_list = []
@@ -406,7 +436,8 @@ def drawing():
 
             display.blit(pygame.image.load('data/button_left.png'), (25, 137))
             display.blit(pygame.image.load('data/button_right.png'), (400, 137))
-            print_text(*running_line[ind_running_line])
+            print_text(running_line[ind_running_line][0][ind_ind_running_line],
+                       67, 140, font_color=running_line[ind_running_line][1])
             # Обновляется CPU
             cpu = int(sum(inf['CPU']) / 12)
             z = 4 * cpu
@@ -499,3 +530,4 @@ def drawing():
 
 if __name__ == '__main__':
     drawing()
+    # weather()
