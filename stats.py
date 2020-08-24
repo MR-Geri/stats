@@ -1,5 +1,4 @@
 import datetime
-import json
 import os
 import time
 from threading import Thread
@@ -14,6 +13,8 @@ import win32com.client
 import win32con
 import win32gui
 from PIL import Image
+import requests
+from bs4 import BeautifulSoup
 
 
 def keyboard_layout(need):
@@ -137,13 +138,22 @@ last_active_windows = ''
 time_of_the_las_passage = datetime.datetime.now()
 tim = 0
 last = 0
-running_line = ['0', 'Какой-то текст потом', '2', '3']
+running_line = ['' for _ in range(4)]
 ind_running_line = 0
 CPU_CHART = True
 GPU_CHART = True
 RAM_CHART = True
 T_CPU_CHART = True
 T_GPU_CHART = True
+inf = {"CPU": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+       "RAM": [16329, 0, 0, 0],
+       "Диск C": [90.4, 0, 0, 0],
+       "Диск D": [374.81, 0, 0, 0],
+       "Диск G": [250.34, 0, 0, 0],
+       "Диск F": [430.52, 0, 0, 0],
+       "Диск H": [250.65, 0, 0, 0],
+       "Диск E": [931.51, 0, 0, 0],
+       "time": [12, 11, 57]}
 timer = pygame.time.Clock()
 shell = win32com.client.Dispatch("WScript.Shell")
 os.environ['SDL_VIDEO_WINDOW_POS'] = '-1080, 1617'
@@ -151,15 +161,6 @@ pygame.init()
 display = pygame.display.set_mode((1080, 480))
 pygame.display.set_caption("Stats")
 pygame.display.set_icon(pygame.image.load("data/icon/stats.ico"))
-inf_except = {"CPU": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              "RAM": [16329, 0, 0, 0],
-              "Диск C": [90.4, 0, 0, 0],
-              "Диск D": [374.81, 0, 0, 0],
-              "Диск G": [250.34, 0, 0, 0],
-              "Диск F": [430.52, 0, 0, 0],
-              "Диск H": [250.65, 0, 0, 0],
-              "Диск E": [931.51, 0, 0, 0],
-              "time": [12, 11, 57]}
 v_tem_1 = ['SYS', 'PCH', 'CPU_GP', 'PCI_E', 'VRM', 'AUX']
 v_tem_2 = ['GPU', 'HDD 1', 'HDD 2']
 temperature = {}
@@ -172,7 +173,7 @@ handle.MainboardEnabled = handle.CPUEnabled = handle.GPUEnabled = handle.HDDEnab
 handle.Open()
 
 
-def print_text(message, x, y, font_color=(255, 255, 255), font_type='data/shrift.otf', font_size=30):
+def print_text(message, x, y, font_color=(255, 255, 255), font_size=30, font_type='data/shrift.otf'):
     font_type = pygame.font.Font(font_type, font_size)
     text = font_type.render(message, True, font_color)
     display.blit(text, (x, y))
@@ -190,30 +191,21 @@ def action_two_key(one, two):
 
 
 def info():
-    global tim
+    global tim, inf
     # Ram: Всего, Доступно, Использовано (мб), Проценты
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
     while True:
-        t = datetime.datetime.now().strftime("%H:%M:%S").split(':')
-        tim = 24 if t[0] == '00' and tim == 0 else tim
-        t[0] = str(int(t[0]) + tim)
-        t1 = datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%H:%M:%S").split(':')
-        t = (int(t[0]) - int(t1[0])) * 3600 + (int(t[1]) - int(t1[1])) * 60 + int(t[2]) - int(t1[2])
+        times = datetime.datetime.now() - datetime.datetime.fromtimestamp(psutil.boot_time())
         inf = {
             'CPU': psutil.cpu_percent(interval=1, percpu=True),
             'RAM': [int(i / 1024 / 1024) if i > 101 else int(i) for i in psutil.virtual_memory()],
-            'time': [t // 3600, t % 3600 // 60, t % 3600 % 60]
+            'time': [times.seconds // 3600, (times.seconds % 3600) // 60, (times.seconds % 3600) % 60]
         }
         for i in 'CDGFHE':
             disk = [i / 1024 / 1024 / 1024 if i > 101 else i for i in psutil.disk_usage(f'{i}:\\')]
             inf[f'Диск {i}'] = [float('{:.2f}'.format(disk[0])), float('{:.2f}'.format(disk[1])),
                                 float('{:.2f}'.format(disk[2])), int(disk[3])]
-        try:
-            with open("data/data.json", "w") as write_file:
-                json.dump(inf, write_file)
-        except:
-            print('Была ошибка в записи информации')
 
 
 def temperatures():
@@ -230,6 +222,29 @@ def temperatures():
         handle.Hardware[ind].Update()
         temperature[i] = int(handle.Hardware[ind].Sensors[0].Value)
     return temperature
+
+
+def weather():
+    global running_line
+    data = []
+    url = f'https://yandex.ru/pogoda/lipetsk/details?via=ms#{datetime.datetime.now().day}'
+    html = requests.get(url)
+    soup = BeautifulSoup(html.text, 'html.parser')
+    for item in soup.find_all('div', class_='card'):
+        add = [
+            ' '.join(i.get_text(strip=True) for i in item.find_all('td', class_='weather-table__body-cell weather-'
+                                                                                'table__body-cell_type_feels-like')),
+            ' '.join(i.get_text(strip=True) for i in item.find_all('td', class_='weather-table__body-cell weather-'
+                                                                                'table__body-cell_type_humidity'))
+        ]
+        if len(add[0]) != 0:
+            data.append(add)
+        if len(data) == 2:
+            break
+    running_line[0] = (data[0][0], 67, 140, (35, 255, 0), 30)
+    running_line[1] = (data[0][1], 103, 140, (35, 255, 0), 30)
+    running_line[2] = (data[1][0], 67, 140, (102, 0, 255), 30)
+    running_line[3] = (data[1][1], 103, 140, (102, 0, 255), 30)
 
 
 def drawing():
@@ -302,7 +317,7 @@ def drawing():
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
     global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, \
-        ind_running_line, running_line
+        ind_running_line, running_line, inf
     chart_time_list = [i for i in range(1, 61)]
     chart_cpu_list = []
     chart_gpu_list = []
@@ -311,25 +326,25 @@ def drawing():
     chart_gpu_temperature_list = []
     info_thread = Thread(target=info)
     info_thread.start()
+    weather()
     while True:
         timer.tick(60)
         display.fill((0, 0, 0))
         click_button()
         changing_the_language()
-        if int(str(datetime.datetime.now() - time_of_the_las_passage)[5:7]) >= 1:
-            try:
-                inf = json.load(open('data/data.json'))
-            except:
-                inf = inf_except
-                print('Была ошибка в считывании информации')
-
+        ob = datetime.datetime.now() - time_of_the_las_passage
+        if ob.seconds // 3600 == 1:
+            print('Обновление погоды')
+            weather()
+        if int(ob.seconds) + int(str(ob.microseconds)[:2]) / 100 >= 1:
             blit_all_rect()
             temp = temperatures()
             # блок времени
             pygame.draw.rect(display, (50, 51, 50), (770, 350, 300, 120))
             print_text(f'{datetime.datetime.now().strftime("%H:%M")}', 782, 350, font_size=100)
-            print_text(f'{datetime.datetime.now().strftime("%d-%m-%Y")} '
-                       + str(inf['time'][0]) + ':' + str(inf['time'][1]), 790, 440)
+            print_text(f'{datetime.datetime.now().strftime("%d-%m-%Y")}', 790, 440)
+            time_out = str(inf['time'][0]) + ':' + str(inf['time'][1]) + ':' + str(inf['time'][2])
+            print_text(' ' * (8 - len(time_out)) + time_out, 965, 445, font_size=22)
             if not CPU_CHART and not GPU_CHART and not RAM_CHART and not T_CPU_CHART and not T_GPU_CHART:
                 # Блок инфы дисков Правый
                 pygame.draw.rect(display, (54, 35, 8), (785, 25, 270, 90))
@@ -391,7 +406,7 @@ def drawing():
 
             display.blit(pygame.image.load('data/button_left.png'), (25, 137))
             display.blit(pygame.image.load('data/button_right.png'), (400, 137))
-            print_text(running_line[ind_running_line], 58, 140, font_size=30)
+            print_text(*running_line[ind_running_line])
             # Обновляется CPU
             cpu = int(sum(inf['CPU']) / 12)
             z = 4 * cpu

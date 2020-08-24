@@ -1,3 +1,1 @@
-[0823/112803.926:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
-[0823/230008.746:WARNING:gpu_process_host.cc(1217)] The GPU process has crashed 1 time(s)
-[0823/230009.231:WARNING:gpu_process_host.cc(980)] Reinitialized the GPU process after a crash. The reported initialization time was 215 ms
+[0824/184958.742:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
