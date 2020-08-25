@@ -42,7 +42,7 @@ APP = [
         'x': 27,
         'y': 355,
         'icon': pygame.image.load('data/icon/pycharm.png'),
-        'os_open': r'D:\PyCharm 2020.1\bin\pycharm64.exe',
+        'os_open': r'D:\"PyCharm 2020.1"\bin\pycharm64.exe',
         'if_os_open_name': True
     },
     {
@@ -58,7 +58,7 @@ APP = [
         'x': 27 + 60 * 3,
         'y': 355,
         'icon': pygame.image.load('data/icon/adobe-aftereffects.png'),
-        'os_open': r'D:\Adobe\Adobe After Effects CC 2019\Support Files\AfterFX.exe',
+        'os_open': r'D:\Adobe\"Adobe After Effects CC 2019"\"Support Files"\AfterFX.exe',
         'if_os_open_name': True
     },
     {
@@ -66,7 +66,7 @@ APP = [
         'x': 27 + 60 * 4,
         'y': 355,
         'icon': pygame.image.load('data/icon/photoshop.png'),
-        'os_open': r'D:\Adobe\Adobe Photoshop CC 2019\Photoshop.exe',
+        'os_open': r'D:\Adobe\"Adobe Photoshop CC 2019"\Photoshop.exe',
         'if_os_open_name': True
     },
     {
@@ -74,7 +74,7 @@ APP = [
         'x': 27 + 60 * 5,
         'y': 355,
         'icon': pygame.image.load('data/icon/computer.png'),
-        'os_open': r'C:\Users\ilyak\Desktop\Этот компьютер.lnk',
+        'os_open': r'C:\Users\ilyak\Desktop\"Этот компьютер.lnk"',
         'if_os_open_name': True
     },
     {
@@ -98,7 +98,7 @@ APP = [
         'x': 27 + 60,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/yandex_disk.png'),
-        'os_open': r'C:\Users\ilyak\AppData\Roaming\Yandex\YandexDisk2\3.1.22.3711\YandexDisk2.exe',
+        'os_open': r'C:\Users\ilyak\AppData\Roaming\Yandex\YandexDisk2\"3.1.22.3711"\YandexDisk2.exe',
         'if_os_open_name': True
     },
     {
@@ -114,7 +114,7 @@ APP = [
         'x': 27 + 60 * 4,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/premiere-pro.png'),
-        'os_open': r'D:\Adobe\Adobe Premiere Pro 2020\Adobe Premiere Pro.exe',
+        'os_open': r'D:\Adobe\"Adobe Premiere Pro 2020"\"Adobe Premiere Pro.exe"',
         'if_os_open_name': True
     },
     {
@@ -130,7 +130,7 @@ APP = [
         'x': 27 + 60 * 6,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/bot.png'),
-        'os_open': r'D:\PycharmProjects\bot_vk\dist\bot\bot.exe',
+        'os_open': r'C:\Users\ilyak\Desktop\bot.lnk',
         'if_os_open_name': True
     },
 ]
@@ -241,7 +241,7 @@ def run_line():
         for i in soup.find_all('input', class_='input__control'):
             data_soup.append(i.get('value').split()[-1])
     text = f'$ = {data_soup[2]}  € = {data_soup[5]}'
-    running_line[1] = [[[(text, 65, 140)], (255, 255, 255)]]
+    running_line[1] = [[[(text, 60, 140)], (255, 255, 255)]]
     soup = BeautifulSoup(requests.get('https://world-weather.ru/pogoda/russia/lipetsk/', headers=headers).text,
                          'html.parser')
     # Ощущается как °C
@@ -252,28 +252,13 @@ def run_line():
     items = soup.find_all('div', class_='pane')
     data = [[['' for _ in range(5)], ()] for _ in range(4)]
     col = [(35, 255, 0), (0, 0, 255), (255, 255, 0), (128, 0, 255)]
+    data_find = ['weather-feeling', 'weather-probability', 'weather-pressure', 'weather-wind', 'weather-humidity']
     for i in range(4):
-        s = ''
-        for te in items[i].find_all('td', class_=f'weather-feeling'):
-            s += te.get_text(strip=True) + ' '
-        data[i][0][0] = (s.rstrip(), 67, 140)
-        s = ''
-        for te in items[i].find_all('td', class_=f'weather-probability'):
-            s += te.get_text(strip=True) + ' '
-        # 8.4 * 5 = 3 * 14 = 42 // 109
-        data[i][0][1] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
-        s = ''
-        for te in items[i].find_all('td', class_=f'weather-pressure'):
-            s += te.get_text(strip=True) + ' '
-        data[i][0][2] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
-        s = ''
-        for te in items[i].find_all('td', class_=f'weather-wind'):
-            s += te.get_text(strip=True) + ' '
-        data[i][0][3] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
-        s = ''
-        for te in items[i].find_all('td', class_=f'weather-humidity'):
-            s += te.get_text(strip=True) + ' '
-        data[i][0][4] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
+        for f in data_find:
+            s = ''
+            for te in items[i].find_all('td', class_=f):
+                s += te.get_text(strip=True) + ' '
+            data[i][0][data_find.index(f)] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
         data[i][1] = col[i]
     running_line[0] = data
     # for i in running_line:
@@ -326,7 +311,7 @@ def drawing():
                     and click == 1 and last == 0:
                 print('Открытие', app['name'])
                 if app['if_os_open_name']:
-                    os.startfile(app['os_open'])
+                    os.system("start " + app['os_open'])
                 else:
                     app['os_open']()
         last = 0 if pygame.mouse.get_pressed()[0] == 0 else 1

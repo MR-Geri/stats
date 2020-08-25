@@ -1,0 +1,24 @@
+2020-08-25 21:40:29,069 - __main__ - ERROR - Time_check Json load
+Traceback (most recent call last):
+  File "bot.py", line 302, in time_check
+FileNotFoundError: [Errno 2] No such file or directory: 'data\\list_of_cases/212360934/time_text.json'
+2020-08-25 21:40:33,064 - __main__ - ERROR - Time_check Json load
+Traceback (most recent call last):
+  File "bot.py", line 302, in time_check
+FileNotFoundError: [Errno 2] No such file or directory: 'data\\list_of_cases/212360934/time_text.json'
+2020-08-25 21:41:14,116 - __main__ - ERROR - Time_check Json load
+Traceback (most recent call last):
+  File "bot.py", line 302, in time_check
+FileNotFoundError: [Errno 2] No such file or directory: 'data\\list_of_cases/212360934/time_text.json'
+2020-08-25 21:41:38,270 - __main__ - ERROR - Time_check Json load
+Traceback (most recent call last):
+  File "bot.py", line 302, in time_check
+FileNotFoundError: [Errno 2] No such file or directory: 'data\\list_of_cases/212360934/time_text.json'
+2020-08-25 21:42:44,446 - __main__ - ERROR - Time_check Json load
+Traceback (most recent call last):
+  File "bot.py", line 302, in time_check
+FileNotFoundError: [Errno 2] No such file or directory: 'data\\list_of_cases/212360934/time_text.json'
+2020-08-25 21:43:34,800 - __main__ - ERROR - Time_check Json load
+Traceback (most recent call last):
+  File "bot.py", line 302, in time_check
+FileNotFoundError: [Errno 2] No such file or directory: 'data\\list_of_cases/212360934/time_text.json'
