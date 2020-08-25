@@ -130,7 +130,7 @@ APP = [
         'x': 27 + 60 * 6,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/bot.png'),
-        'os_open': r'C:\Users\ilyak\Desktop\bot.lnk',
+        'os_open': r'D:\PycharmProjects\bot_vk\dist\bot\bot.exe',
         'if_os_open_name': True
     },
 ]
@@ -138,9 +138,11 @@ last_active_windows = ''
 time_of_the_las_passage = datetime.datetime.now()
 tim = 0
 last = 0
-running_line = ['' for _ in range(4)]
-ind_running_line = 0
-ind_ind_running_line = 0
+last_r = 0
+running_line = ['' for _ in range(2)]
+block_run = 0
+ind_run = 0
+vl_list_run = 0
 CPU_CHART = True
 GPU_CHART = True
 RAM_CHART = True
@@ -225,11 +227,21 @@ def temperatures():
     return temperature
 
 
-def weather():
+def run_line():
     global running_line
     headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                              'Chrome/84.0.4147.86 YaBrowser/20.8.0.894 Yowser/2.5 Yptp/1.23 Safari/537.36',
                'accept': '*/*'}
+    data_soup = []
+    for url in ['евро', 'доллар']:
+        soup = BeautifulSoup(requests.get(f'https://yandex.ru/search/?text=курс+{url}&lr=9&clid=2270455&win=431&suggest'
+                                          f'_reqid=884927702159387871037738163558535&src=suggest_Rec',
+                                          headers=headers).text,
+                             'html.parser')
+        for i in soup.find_all('input', class_='input__control'):
+            data_soup.append(i.get('value').split()[-1])
+    text = f'$ = {data_soup[2]}  € = {data_soup[5]}'
+    running_line[1] = [[[(text, 65, 140)], (255, 255, 255)]]
     soup = BeautifulSoup(requests.get('https://world-weather.ru/pogoda/russia/lipetsk/', headers=headers).text,
                          'html.parser')
     # Ощущается как °C
@@ -239,10 +251,6 @@ def weather():
     # Влажность воздуха
     items = soup.find_all('div', class_='pane')
     data = [[['' for _ in range(5)], ()] for _ in range(4)]
-    # (35, 255, 0)
-    # (102, 0, 255)
-    # (102, 102, 0)
-    # (255, 36, 0)
     col = [(35, 255, 0), (0, 0, 255), (255, 255, 0), (128, 0, 255)]
     for i in range(4):
         s = ''
@@ -267,7 +275,9 @@ def weather():
             s += te.get_text(strip=True) + ' '
         data[i][0][4] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
         data[i][1] = col[i]
-    running_line[0:4] = data
+    running_line[0] = data
+    # for i in running_line:
+    #     print(i)
 
 
 def drawing():
@@ -281,9 +291,9 @@ def drawing():
         last_active_windows = win32gui.GetWindowText(win32gui.GetForegroundWindow())
 
     def click_button():
-        global last, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, running_line, ind_running_line, \
-            ind_ind_running_line
-        mouse, click = pygame.mouse.get_pos(), pygame.mouse.get_pressed()[0]
+        global last, last_r, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, running_line, \
+            block_run, ind_run, vl_list_run
+        mouse, click, click_r = pygame.mouse.get_pos(), pygame.mouse.get_pressed()[0], pygame.mouse.get_pressed()[2]
         # Показ CPU графика
         if 502 < mouse[0] < 522 and 40 > mouse[1] > 13 and click == 1 and last == 0:
             CPU_CHART = False if CPU_CHART else True
@@ -298,14 +308,18 @@ def drawing():
         if 478 < mouse[0] < 500 and 40 > mouse[1] > 13 and click == 1 and last == 0:
             CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART = False, False, False, False, False
         if 25 < mouse[0] < 25 + 48 and 137 + 48 > mouse[1] > 137 and click == 1 and last == 0:
-            ind_running_line = len(running_line) - 1 if ind_running_line == 0 else ind_running_line - 1
-            ind_ind_running_line = 0
+            block_run = 0 if block_run == len(running_line) - 1 else block_run - 1
+            ind_run = 0
+            vl_list_run = 0
         if 400 < mouse[0] < 400 + 48 and 137 + 48 > mouse[1] > 137 and click == 1 and last == 0:
-            ind_running_line = 0 if ind_running_line == len(running_line) - 1 else ind_running_line + 1
-            ind_ind_running_line = 0
+            block_run = 0 if block_run == len(running_line) - 1 else block_run + 1
+            ind_run = 0
+            vl_list_run = 0
         if 25 + 48 < mouse[0] < 400 and 137 + 48 > mouse[1] > 137 and click == 1 and last == 0:
-            ind_ind_running_line = 0 if ind_ind_running_line == len(running_line[ind_running_line][0]) - 1 \
-                else ind_ind_running_line + 1
+            ind_run = 0 if ind_run == len(running_line[block_run][vl_list_run][0]) - 1 else ind_run + 1
+        if 25 + 48 < mouse[0] < 400 and 137 + 48 > mouse[1] > 137 and click_r == 1 and last_r == 0:
+            vl_list_run = 0 if vl_list_run == len(running_line[block_run]) - 1 else vl_list_run + 1
+            ind_run = 0
         # Открытие приложений
         for app in APP:
             if app['x'] + 60 > mouse[0] > app['x'] and app['y'] + 60 > mouse[1] > app['y'] \
@@ -316,6 +330,7 @@ def drawing():
                 else:
                     app['os_open']()
         last = 0 if pygame.mouse.get_pressed()[0] == 0 else 1
+        last_r = 0 if pygame.mouse.get_pressed()[2] == 0 else 1
 
     def blit_all_rect():
         pygame.draw.rect(display, (50, 51, 50), (770, 10, 300, 330))
@@ -346,7 +361,7 @@ def drawing():
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
     global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, \
-        ind_running_line, running_line, inf, ind_ind_running_line
+        block_run, running_line, inf, ind_run, vl_list_run
     chart_time_list = [i for i in range(1, 61)]
     chart_cpu_list = []
     chart_gpu_list = []
@@ -355,7 +370,7 @@ def drawing():
     chart_gpu_temperature_list = []
     info_thread = Thread(target=info)
     info_thread.start()
-    weather()
+    run_line()
     while True:
         timer.tick(60)
         display.fill((0, 0, 0))
@@ -363,8 +378,8 @@ def drawing():
         changing_the_language()
         ob = datetime.datetime.now() - time_of_the_las_passage
         if ob.seconds // 3600 == 1:
-            print('Обновление погоды')
-            weather()
+            print('Обновление информации бегущей строки')
+            run_line()
         if int(ob.seconds) + int(str(ob.microseconds)[:2]) / 100 >= 1:
             blit_all_rect()
             temp = temperatures()
@@ -435,8 +450,8 @@ def drawing():
 
             display.blit(pygame.image.load('data/button_left.png'), (25, 137))
             display.blit(pygame.image.load('data/button_right.png'), (400, 137))
-            print_text(*running_line[ind_running_line][0][ind_ind_running_line],
-                       font_color=running_line[ind_running_line][1])
+            print_text(*running_line[block_run][vl_list_run][0][ind_run],
+                       font_color=running_line[block_run][vl_list_run][1])
             # Обновляется CPU
             cpu = int(sum(inf['CPU']) / 12)
             z = 4 * cpu
