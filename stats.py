@@ -243,31 +243,30 @@ def weather():
     # (102, 0, 255)
     # (102, 102, 0)
     # (255, 36, 0)
-    col = [(35, 255, 0), (102, 0, 255), (102, 102, 0), (255, 36, 0)]
+    col = [(35, 255, 0), (0, 0, 255), (255, 255, 0), (128, 0, 255)]
     for i in range(4):
         s = ''
         for te in items[i].find_all('td', class_=f'weather-feeling'):
-            s += ' ' * (4 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
-        data[i][0][0] = s.rstrip()
+            s += te.get_text(strip=True) + ' '
+        data[i][0][0] = (s.rstrip(), 67, 140)
         s = ''
         for te in items[i].find_all('td', class_=f'weather-probability'):
-            s += ' ' * (4 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
-        data[i][0][1] = s.rstrip()
+            s += te.get_text(strip=True) + ' '
+        # 8.4 * 5 = 3 * 14 = 42 // 109
+        data[i][0][1] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
         s = ''
         for te in items[i].find_all('td', class_=f'weather-pressure'):
-            s += ' ' * (3 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
-        data[i][0][2] = s.rstrip()
+            s += te.get_text(strip=True) + ' '
+        data[i][0][2] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
         s = ''
         for te in items[i].find_all('td', class_=f'weather-wind'):
-            s += ' ' * (4 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
-        data[i][0][3] = s.rstrip()
+            s += te.get_text(strip=True) + ' '
+        data[i][0][3] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
         s = ''
         for te in items[i].find_all('td', class_=f'weather-humidity'):
-            s += ' ' * (4 - len(te.get_text(strip=True))) + te.get_text(strip=True) + ' '
-        data[i][0][4] = s.rstrip()
+            s += te.get_text(strip=True) + ' '
+        data[i][0][4] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
         data[i][1] = col[i]
-    for i in data:
-        print(i)
     running_line[0:4] = data
 
 
@@ -436,8 +435,8 @@ def drawing():
 
             display.blit(pygame.image.load('data/button_left.png'), (25, 137))
             display.blit(pygame.image.load('data/button_right.png'), (400, 137))
-            print_text(running_line[ind_running_line][0][ind_ind_running_line],
-                       67, 140, font_color=running_line[ind_running_line][1])
+            print_text(*running_line[ind_running_line][0][ind_ind_running_line],
+                       font_color=running_line[ind_running_line][1])
             # Обновляется CPU
             cpu = int(sum(inf['CPU']) / 12)
             z = 4 * cpu
