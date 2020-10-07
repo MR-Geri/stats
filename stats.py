@@ -9,7 +9,6 @@ import plotly.graph_objs as go
 import psutil
 import pygame
 import win32api
-import win32com.client
 import win32con
 import win32gui
 from PIL import Image
@@ -32,41 +31,52 @@ def open_music():
         win32api.keybd_event(ind, 0, win32con.KEYEVENTF_EXTENDEDKEY, 0)
         win32api.keybd_event(ind, 0, win32con.KEYEVENTF_EXTENDEDKEY | win32con.KEYEVENTF_KEYUP, 0)
         time.sleep(0.001)
-    time.sleep(0.3)
-    shell.SendKeys('{ENTER}')
+    time.sleep(0.2)
+    win32api.keybd_event(win32con.VK_RETURN, 0, win32con.KEYEVENTF_EXTENDEDKEY, 0)
+    win32api.keybd_event(win32con.VK_RETURN, 0, win32con.KEYEVENTF_EXTENDEDKEY | win32con.KEYEVENTF_KEYUP, 0)
 
 
+with open('data/path.txt', encoding='utf-8') as file:
+    file = [i for i in file.read().split('\n')]
 APP = [
     {
         'name': 'Pycharm',
         'x': 27,
         'y': 355,
         'icon': pygame.image.load('data/icon/pycharm.png'),
-        'os_open': r'D:\"PyCharm 2020.1"\bin\pycharm64.exe',
+        'os_open': fr'{file[0]}',
+        'if_os_open_name': True
+    },
+    {
+        'name': 'Android Studio',
+        'x': 27 + 60,
+        'y': 355,
+        'icon': pygame.image.load('data/icon/android.png'),
+        'os_open': fr'{file[1]}',
         'if_os_open_name': True
     },
     {
         'name': 'Discord',
-        'x': 27 + 60,
+        'x': 27 + 60 * 2,
         'y': 355,
         'icon': pygame.image.load('data/icon/discord.png'),
-        'os_open': r'C:\Users\ilyak\AppData\Local\Discord\app-0.0.307\Discord.exe',
+        'os_open': fr'{file[2]}',
         'if_os_open_name': True
     },
     {
-        'name': 'Фотошоп',
+        'name': 'Adobe After Effects',
         'x': 27 + 60 * 3,
         'y': 355,
         'icon': pygame.image.load('data/icon/adobe-aftereffects.png'),
-        'os_open': r'D:\Adobe\"Adobe After Effects CC 2019"\"Support Files"\AfterFX.exe',
+        'os_open': fr'{file[3]}',
         'if_os_open_name': True
     },
     {
-        'name': 'Фотошоп',
+        'name': 'Adobe Photoshop',
         'x': 27 + 60 * 4,
         'y': 355,
         'icon': pygame.image.load('data/icon/photoshop.png'),
-        'os_open': r'D:\Adobe\"Adobe Photoshop CC 2019"\Photoshop.exe',
+        'os_open': fr'{file[4]}',
         'if_os_open_name': True
     },
     {
@@ -74,7 +84,7 @@ APP = [
         'x': 27 + 60 * 5,
         'y': 355,
         'icon': pygame.image.load('data/icon/computer.png'),
-        'os_open': r'C:\Users\ilyak\Desktop\"Этот компьютер.lnk"',
+        'os_open': fr'{file[5]}',
         'if_os_open_name': True
     },
     {
@@ -82,7 +92,7 @@ APP = [
         'x': 27 + 60 * 6,
         'y': 355,
         'icon': pygame.image.load('data/icon/project.png'),
-        'os_open': r'D:\PycharmProjects',
+        'os_open': fr'{file[6]}',
         'if_os_open_name': True
     },
     {
@@ -98,7 +108,7 @@ APP = [
         'x': 27 + 60,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/yandex_disk.png'),
-        'os_open': r'C:\Users\ilyak\AppData\Roaming\Yandex\YandexDisk2\"3.1.22.3711"\YandexDisk2.exe',
+        'os_open': fr'{file[8]}',
         'if_os_open_name': True
     },
     {
@@ -106,7 +116,7 @@ APP = [
         'x': 27 + 60 * 2,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/whatsapp.png'),
-        'os_open': r'C:\Users\ilyak\AppData\Local\WhatsApp\WhatsApp.exe',
+        'os_open': fr'{file[9]}',
         'if_os_open_name': True
     },
     {
@@ -114,7 +124,7 @@ APP = [
         'x': 27 + 60 * 4,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/premiere-pro.png'),
-        'os_open': r'D:\Adobe\"Adobe Premiere Pro 2020"\"Adobe Premiere Pro.exe"',
+        'os_open': fr'{file[10]}',
         'if_os_open_name': True
     },
     {
@@ -122,7 +132,7 @@ APP = [
         'x': 27 + 60 * 5,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/download.png'),
-        'os_open': r'C:\Users\ilyak\Downloads',
+        'os_open': fr'{file[11]}',
         'if_os_open_name': True
     },
     {
@@ -130,7 +140,7 @@ APP = [
         'x': 27 + 60 * 6,
         'y': 355 + 60,
         'icon': pygame.image.load('data/icon/bot.png'),
-        'os_open': r'C:\Users\ilyak\Desktop\bot.lnk',
+        'os_open': fr'{file[12]}',
         'if_os_open_name': True
     },
 ]
@@ -156,9 +166,8 @@ inf = {"CPU": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
        "Диск F": [430.52, 0, 0, 0],
        "Диск H": [250.65, 0, 0, 0],
        "Диск E": [931.51, 0, 0, 0],
-       "time": [12, 11, 57]}
+       "time": [12, 11, 57, 00]}
 timer = pygame.time.Clock()
-shell = win32com.client.Dispatch("WScript.Shell")
 os.environ['SDL_VIDEO_WINDOW_POS'] = '-1080, 1617'
 pygame.init()
 display = pygame.display.set_mode((1080, 480))
@@ -203,7 +212,7 @@ def info():
         inf = {
             'CPU': psutil.cpu_percent(interval=1, percpu=True),
             'RAM': [int(i / 1024 / 1024) if i > 101 else int(i) for i in psutil.virtual_memory()],
-            'time': [times.seconds // 3600, (times.seconds % 3600) // 60, (times.seconds % 3600) % 60]
+            'time': [times.days, times.seconds // 3600, (times.seconds % 3600) // 60, (times.seconds % 3600) % 60]
         }
         for i in 'CDGFHE':
             disk = [i / 1024 / 1024 / 1024 if i > 101 else i for i in psutil.disk_usage(f'{i}:\\')]
@@ -234,13 +243,16 @@ def run_line():
                'accept': '*/*'}
     data_soup = []
     for url in ['евро', 'доллар']:
-        soup = BeautifulSoup(requests.get(f'https://yandex.ru/search/?text=курс+{url}&lr=9&clid=2270455&win=431&suggest'
-                                          f'_reqid=884927702159387871037738163558535&src=suggest_Rec',
+        soup = BeautifulSoup(requests.get(f'https://yandex.ru/search/?text=курс%20{url}&lr=9&clid=2270455&win=431'
+                                          f'&suggest%27%20f%27_reqid=884927702159387871037738163558535&src=suggest_Rec',
                                           headers=headers).text,
                              'html.parser')
         for i in soup.find_all('input', class_='input__control'):
             data_soup.append(i.get('value').split()[-1])
-    text = f'$ = {data_soup[2]}  € = {data_soup[5]}'
+    try:
+        text = ' ' * (7 - len(str(data_soup[2])) - len(str(data_soup[5]))) + f'$ = {data_soup[2]}  € = {data_soup[5]}'
+    except :
+        text = ''
     running_line[1] = [[[(text, 60, 140)], (255, 255, 255)]]
     soup = BeautifulSoup(requests.get('https://world-weather.ru/pogoda/russia/lipetsk/', headers=headers).text,
                          'html.parser')
@@ -356,6 +368,7 @@ def drawing():
     info_thread = Thread(target=info)
     info_thread.start()
     run_line()
+
     while True:
         timer.tick(60)
         display.fill((0, 0, 0))
@@ -372,7 +385,7 @@ def drawing():
             pygame.draw.rect(display, (50, 51, 50), (770, 350, 300, 120))
             print_text(f'{datetime.datetime.now().strftime("%H:%M")}', 782, 350, font_size=100)
             print_text(f'{datetime.datetime.now().strftime("%d-%m-%Y")}', 790, 440)
-            time_out = str(inf['time'][0]) + ':' + str(inf['time'][1]) + ':' + str(inf['time'][2])
+            time_out = str(inf['time'][1] + inf['time'][0] * 24) + ':' + str(inf['time'][2]) + ':' + str(inf['time'][3])
             print_text(' ' * (8 - len(time_out)) + time_out, 965, 445, font_size=22)
             if not CPU_CHART and not GPU_CHART and not RAM_CHART and not T_CPU_CHART and not T_GPU_CHART:
                 # Блок инфы дисков Правый
@@ -529,4 +542,3 @@ def drawing():
 
 if __name__ == '__main__':
     drawing()
-    # weather()
