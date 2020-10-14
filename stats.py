@@ -250,7 +250,7 @@ def run_line():
         for i in soup.find_all('input', class_='input__control'):
             data_soup.append(i.get('value').split()[-1])
     try:
-        text = ' ' * (7 - len(str(data_soup[2])) - len(str(data_soup[5]))) + f'$ = {data_soup[5]}  € = {data_soup[2]}'
+        text = ' ' * (7 - len(str(data_soup[2])) - len(str(data_soup[5]))) + f'€ = {data_soup[5]}  $ = {data_soup[2]}'
     except :
         text = ''
     running_line[1] = [[[(text, 60, 140)], (255, 255, 255)]]
