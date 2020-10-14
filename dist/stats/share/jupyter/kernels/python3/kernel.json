@@ -1,6 +1,6 @@
 {
  "argv": [
-  "C:\\Users\\ilyak\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
+  "python",
   "-m",
   "ipykernel_launcher",
   "-f",
