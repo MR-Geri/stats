@@ -1,6 +1,1 @@
-[1006/133518.428:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
-[1006/223956.802:WARNING:gpu_process_host.cc(1217)] The GPU process has crashed 1 time(s)
-[1006/223956.960:ERROR:network_service_instance_impl.cc(262)] Network service crashed, restarting service.
-[1006/223957.687:WARNING:gpu_process_host.cc(980)] Reinitialized the GPU process after a crash. The reported initialization time was 509 ms
-[1006/224002.008:ERROR:network_service_instance_impl.cc(262)] Network service crashed, restarting service.
-[1006/224002.008:WARNING:gpu_process_host.cc(1217)] The GPU process has crashed 2 time(s)
+[1014/145838.014:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 

@@ -1,0 +1,13 @@
+D:\pycharm\"PyCharm 2020.1"\bin\pycharm64.exe
+D:\"Android Studio"\bin\studio64.exe
+C:\Users\ilyak\AppData\Local\Discord\app-0.0.307\Discord.exe
+D:\Adobe\"Adobe After Effects CC 2019"\"Support Files"\AfterFX.exe
+D:\Adobe\"Adobe Photoshop CC 2019"\Photoshop.exe
+C:\Users\ilyak\Desktop\"Этот компьютер.lnk"
+D:\PycharmProjects
+
+C:\Users\ilyak\AppData\Roaming\Yandex\YandexDisk2\3.1.22.3711\YandexDisk2.exe
+C:\Users\ilyak\AppData\Local\WhatsApp\WhatsApp.exe
+D:\Adobe\"Adobe Premiere Pro 2020"\"Adobe Premiere Pro.exe"
+C:\Users\ilyak\Downloads
+C:\Users\ilyak\Desktop\bot.lnk
