@@ -36,116 +36,33 @@ def open_music():
     win32api.keybd_event(win32con.VK_RETURN, 0, win32con.KEYEVENTF_EXTENDEDKEY | win32con.KEYEVENTF_KEYUP, 0)
 
 
-with open('data/path.txt', encoding='utf-8') as file:
-    file = [i for i in file.read().split('\n')]
-APP = [
-    {
-        'name': 'Pycharm',
-        'x': 27,
-        'y': 355,
-        'icon': pygame.image.load('data/icon/pycharm.png'),
-        'os_open': fr'{file[0]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Android Studio',
-        'x': 27 + 60,
-        'y': 355,
-        'icon': pygame.image.load('data/icon/android.png'),
-        'os_open': fr'{file[1]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Discord',
-        'x': 27 + 60 * 2,
-        'y': 355,
-        'icon': pygame.image.load('data/icon/discord.png'),
-        'os_open': fr'{file[2]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Adobe After Effects',
-        'x': 27 + 60 * 3,
-        'y': 355,
-        'icon': pygame.image.load('data/icon/adobe-aftereffects.png'),
-        'os_open': fr'{file[3]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Adobe Photoshop',
-        'x': 27 + 60 * 4,
-        'y': 355,
-        'icon': pygame.image.load('data/icon/photoshop.png'),
-        'os_open': fr'{file[4]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Computer',
-        'x': 27 + 60 * 5,
-        'y': 355,
-        'icon': pygame.image.load('data/icon/computer.png'),
-        'os_open': fr'{file[5]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Project',
-        'x': 27 + 60 * 6,
-        'y': 355,
-        'icon': pygame.image.load('data/icon/project.png'),
-        'os_open': fr'{file[6]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Яндекс Музыка',
-        'x': 27,
-        'y': 355 + 60,
-        'icon': pygame.image.load('data/icon/music.png'),
-        'os_open': open_music,
-        'if_os_open_name': False
-    },
-    {
-        'name': 'Яндекс Диск',
-        'x': 27 + 60,
-        'y': 355 + 60,
-        'icon': pygame.image.load('data/icon/yandex_disk.png'),
-        'os_open': fr'{file[8]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'WhatsApp',
-        'x': 27 + 60 * 2,
-        'y': 355 + 60,
-        'icon': pygame.image.load('data/icon/whatsapp.png'),
-        'os_open': fr'{file[9]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Premiere Pro',
-        'x': 27 + 60 * 4,
-        'y': 355 + 60,
-        'icon': pygame.image.load('data/icon/premiere-pro.png'),
-        'os_open': fr'{file[10]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Download',
-        'x': 27 + 60 * 5,
-        'y': 355 + 60,
-        'icon': pygame.image.load('data/icon/download.png'),
-        'os_open': fr'{file[11]}',
-        'if_os_open_name': True
-    },
-    {
-        'name': 'Bot_VK',
-        'x': 27 + 60 * 6,
-        'y': 355 + 60,
-        'icon': pygame.image.load('data/icon/bot.png'),
-        'os_open': fr'{file[12]}',
-        'if_os_open_name': True
-    },
-]
+def get_app(path='data/path.txt'):
+    apps = []
+    with open(path, encoding='utf-8', mode='r') as file:
+        data = [
+            [i.split('; ') for i in line.split()]
+            for line in file.read().split(f'-' * 5)
+        ]
+        for line_ind in range(len(data)):
+            for app_ind in range(len(data[line_ind])):
+                if_path = bool(data[line_ind][app_ind][3])
+                apps.append(
+                    {
+                        'name': data[line_ind][app_ind][0],
+                        'x': 27 + 60 * app_ind,
+                        'y': 355 + 60 * line_ind,
+                        'icon': pygame.image.load(data[line_ind][app_ind][1]),
+                        'os_open': fr'{data[line_ind][app_ind][2]}' if if_path else eval(data[line_ind][app_ind][2]),
+                        'if_os_open_name': if_path
+                    }
+                )
+    return apps
+
+
+APP = get_app()
 last_active_windows = ''
 time_of_the_las_passage = datetime.datetime.now()
+reminder_time = datetime.datetime.now()
 tim = 0
 last = 0
 last_r = 0
@@ -273,8 +190,6 @@ def run_line():
             data[i][0][data_find.index(f)] = (s.rstrip(), 67 + 8 * (19 - len(s.rstrip())), 140)
         data[i][1] = col[i]
     running_line[0] = data
-    # for i in running_line:
-    #     print(i)
 
 
 def drawing():
@@ -358,7 +273,7 @@ def drawing():
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
     global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, \
-        block_run, running_line, inf, ind_run, vl_list_run
+        block_run, running_line, inf, ind_run, vl_list_run, reminder_time
     chart_time_list = [i for i in range(1, 61)]
     chart_cpu_list = []
     chart_gpu_list = []
@@ -374,11 +289,13 @@ def drawing():
         display.fill((0, 0, 0))
         click_button()
         changing_the_language()
-        ob = datetime.datetime.now() - time_of_the_las_passage
-        if ob.seconds // 3600 == 1:
-            print('Обновление информации бегущей строки')
+        now_time = datetime.datetime.now()
+        update_time = now_time - time_of_the_las_passage
+        if (reminder_time - now_time).seconds // 1800 >= 1:
+            print('Обновление информации бегущей строки и напоминание.')
+            reminder_time = now_time
             run_line()
-        if int(ob.seconds) + int(str(ob.microseconds)[:2]) / 100 >= 1:
+        if int(update_time.seconds) + int(str(update_time.microseconds)[:2]) / 100 >= 1:
             blit_all_rect()
             temp = temperatures()
             # блок времени
