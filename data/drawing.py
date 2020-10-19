@@ -89,7 +89,7 @@ def draw_time(display, inf):
     print_text(display, ' ' * (8 - len(time_out)) + time_out, 965, 445, font_size=22)
 
 
-def draw_statistic(display, temp, cpu_chart, gpu_chart, ram_chart, t_cpu_chart, t_gpu_chart):
+def draw_statistic(display, inf, temp, cpu_chart, gpu_chart, ram_chart, t_cpu_chart, t_gpu_chart):
     global chart_time_list, chart_cpu_list, chart_gpu_list, \
         chart_ram_list, chart_cpu_temperature_list, chart_gpu_temperature_list
     pygame.draw.rect(display, (128, 128, 128), (20, 20, 420, 100))
