@@ -1,13 +1,14 @@
-D:\pycharm\"PyCharm 2020.1"\bin\pycharm64.exe
-D:\"Android Studio"\bin\studio64.exe
-C:\Users\ilyak\AppData\Local\Discord\app-0.0.307\Discord.exe
-D:\Adobe\"Adobe After Effects CC 2019"\"Support Files"\AfterFX.exe
-D:\Adobe\"Adobe Photoshop CC 2019"\Photoshop.exe
-C:\Users\ilyak\Desktop\"Этот компьютер.lnk"
-D:\PycharmProjects
 
-C:\Users\ilyak\AppData\Roaming\Yandex\YandexDisk2\3.1.22.3711\YandexDisk2.exe
-C:\Users\ilyak\AppData\Local\WhatsApp\WhatsApp.exe
-D:\Adobe\"Adobe Premiere Pro 2020"\"Adobe Premiere Pro.exe"
-C:\Users\ilyak\Downloads
-C:\Users\ilyak\Desktop\bot.lnk
+Pycharm; data/icon/pycharm.png; D:\pycharm\"PyCharm 2020.1"\bin\pycharm64.exe; True
+Discord; data/icon/discord.png; C:\Users\ilyak\AppData\Local\Discord\app-0.0.307\Discord.exe; True
+Adobe After Effects; data/icon/adobe-aftereffects.png; D:\Adobe\"Adobe After Effects CC 2019"\"Support Files"\AfterFX.exe; True
+Adobe Photoshop; data/icon/photoshop.png; D:\Adobe\"Adobe Photoshop CC 2019"\Photoshop.exe; True
+Computer; data/icon/computer.png; C:\Users\ilyak\Desktop\"Этот компьютер.lnk"; True
+Project; data/icon/project.png; D:\PycharmProjects; True
+-----
+Яндекс Музыка; data/icon/music.png; open_music; False
+Яндекс Диск; data/icon/yandex_disk.png; C:\Users\ilyak\AppData\Roaming\Yandex\YandexDisk2\3.1.22.3711\YandexDisk2.exe; True
+WhatsApp; data/icon/whatsapp.png; C:\Users\ilyak\AppData\Local\WhatsApp\WhatsApp.exe; True
+Premiere Pro; data/icon/premiere-pro.png; D:\Adobe\"Adobe Premiere Pro 2020"\"Adobe Premiere Pro.exe"; True
+Download; data/icon/download.png; C:\Users\ilyak\Downloads; True
+Bot_VK; data/icon/bot.png; C:\Users\ilyak\Desktop\bot.lnk; True
