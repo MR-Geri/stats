@@ -4,7 +4,7 @@ import psutil
 import datetime
 
 
-dll_file_name = os.path.abspath(os.path.dirname(__file__)) + R'\data\OpenHardwareMonitorLib.dll'
+dll_file_name = os.path.abspath(os.path.dirname(__file__)) + R'\OpenHardwareMonitorLib.dll'
 clr.AddReference(dll_file_name)
 from OpenHardwareMonitor import Hardware
 
@@ -15,6 +15,7 @@ handle.Open()
 
 def info():
     """  Загруженносить системы. """
+    global inf
     # Ram: Всего, Доступно, Использовано (мб), Проценты
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
