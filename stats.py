@@ -2,7 +2,7 @@ from data.drawing import print_text, draw_disk, draw_time, draw_statistic
 from data.keyboard import keyboard_layout
 from data.run_line import run_line
 from data.voice import take_a_break
-from data.apps_open import APP
+from data.apps_open import APP, open_music
 from data.temperature import temperatures
 import os
 from threading import Thread
@@ -73,9 +73,8 @@ def drawing():
             keyboard_layout('68748313')
         last_active_windows = win32gui.GetWindowText(win32gui.GetForegroundWindow())
 
-    def click_button():
-        global last, last_r, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, running_line, \
-            block_run, ind_run, vl_list_run
+    def click_button(running_line):
+        global last, last_r, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, block_run, ind_run, vl_list_run
         mouse, click, click_r = pygame.mouse.get_pos(), pygame.mouse.get_pressed()[0], pygame.mouse.get_pressed()[2]
         # Показ CPU графика
         if 502 < mouse[0] < 522 and 40 > mouse[1] > 13 and click == 1 and last == 0:
@@ -136,15 +135,13 @@ def drawing():
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
     global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, \
         block_run, ind_run, vl_list_run, reminder_time
-
-    take_a_break()
     info_thread = Thread(target=info)
     info_thread.start()
     running_line = run_line()
     while True:
         timer.tick(60)
         display.fill((0, 0, 0))
-        click_button()
+        click_button(running_line)
         changing_the_language()
         now_time = datetime.datetime.now()
         update_time = now_time - time_of_the_las_passage
@@ -161,6 +158,8 @@ def drawing():
             if not CPU_CHART and not GPU_CHART and not RAM_CHART and not T_CPU_CHART and not T_GPU_CHART:
                 draw_disk(display, inf)
             # Бегущая строка
+            pygame.draw.rect(display, (128, 128, 128), (20, 20, 420, 100))
+            pygame.draw.rect(display, (128, 128, 128), (20, 130, 420, 200))
             display.blit(pygame.image.load('data/button_left.png'), (25, 137))
             display.blit(pygame.image.load('data/button_right.png'), (400, 137))
             print_text(display, *running_line[block_run][vl_list_run][0][ind_run],

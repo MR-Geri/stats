@@ -32,7 +32,7 @@ def get_app(path='data/path.txt'):
         ]
         for line_ind in range(len(data)):
             for app_ind in range(len(data[line_ind])):
-                if_path = bool(data[line_ind][app_ind][3])
+                if_path = eval(data[line_ind][app_ind][3])
                 apps.append(
                     {
                         'name': data[line_ind][app_ind][0],
