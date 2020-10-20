@@ -92,9 +92,6 @@ def draw_time(display, inf):
 def draw_statistic(display, inf, temp, cpu_chart, gpu_chart, ram_chart, t_cpu_chart, t_gpu_chart):
     global chart_time_list, chart_cpu_list, chart_gpu_list, \
         chart_ram_list, chart_cpu_temperature_list, chart_gpu_temperature_list
-    pygame.draw.rect(display, (128, 128, 128), (20, 20, 420, 100))
-    pygame.draw.rect(display, (128, 128, 128), (20, 130, 420, 200))
-    #
     print_text(display, f'AUX-{temp["AUX"]} CGP-{temp["CPU_GP"]} SYS-{temp["SYS"]}',
                58, 40, font_size=30)
     print_text(display, f'PCH-{temp["PCH"]} PCI-{temp["PCI_E"]} VRM-{temp["VRM"]}',
