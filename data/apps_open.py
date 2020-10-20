@@ -21,7 +21,7 @@ def open_music():
 def get_app(path='data/path.txt'):
     """
     Создание кнопок для открытия
-    :param path: путь до системного файла
+    :param path: путь до файла с приложениями
     :return: список всех приложений для кнопок
     """
     apps = []

@@ -1,1 +1,2 @@
 [1020/071627.459:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1020/071723.531:WARNING:gpu_process_host.cc(1217)] The GPU process has crashed 1 time(s)
