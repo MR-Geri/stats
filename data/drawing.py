@@ -29,6 +29,23 @@ def print_text(display, message, x, y, font_color=(255, 255, 255), font_size=30,
     display.blit(text, (x, y))
 
 
+def blit_all_rect(display, APP):
+    pygame.draw.rect(display, (50, 51, 50), (770, 10, 300, 330))
+    pygame.draw.rect(display, (128, 128, 128), (780, 20, 280, 100))
+    pygame.draw.rect(display, (128, 128, 128), (780, 125, 280, 100))
+    pygame.draw.rect(display, (50, 51, 50), (460, 10, 300, 330))
+    pygame.draw.rect(display, (128, 128, 128), (470, 20, 280, 100))
+    pygame.draw.rect(display, (128, 128, 128), (470, 125, 280, 100))
+    pygame.draw.rect(display, (128, 128, 128), (470, 230, 280, 100))
+    pygame.draw.rect(display, (128, 128, 128), (780, 230, 280, 100))
+    pygame.draw.rect(display, (50, 51, 50), (10, 10, 440, 330))
+    #
+    pygame.draw.rect(display, (50, 51, 50), (10, 350, 750, 120))
+    # отрисовка приложений
+    for app in APP:
+        display.blit(app['icon'], (int(app['x']), int(app['y'])))
+
+
 def draw_disk(display, inf):
     # Блок инфы дисков Правый
     pygame.draw.rect(display, (54, 35, 8), (785, 25, 270, 90))

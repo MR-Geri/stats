@@ -1,4 +1,4 @@
-from data.drawing import print_text, draw_disk, draw_time, draw_statistic
+from data.drawing import print_text, draw_disk, draw_time, draw_statistic, blit_all_rect
 from data.keyboard import keyboard_layout
 from data.run_line import run_line
 from data.voice import take_a_break
@@ -63,7 +63,7 @@ def info():
                                 float('{:.2f}'.format(disk[2])), int(disk[3])]
 
 
-def drawing():
+def main():
     """Вывод всей информации на экран"""
 
     def changing_the_language():
@@ -114,22 +114,6 @@ def drawing():
         last = 0 if pygame.mouse.get_pressed()[0] == 0 else 1
         last_r = 0 if pygame.mouse.get_pressed()[2] == 0 else 1
 
-    def blit_all_rect():
-        pygame.draw.rect(display, (50, 51, 50), (770, 10, 300, 330))
-        pygame.draw.rect(display, (128, 128, 128), (780, 20, 280, 100))
-        pygame.draw.rect(display, (128, 128, 128), (780, 125, 280, 100))
-        pygame.draw.rect(display, (50, 51, 50), (460, 10, 300, 330))
-        pygame.draw.rect(display, (128, 128, 128), (470, 20, 280, 100))
-        pygame.draw.rect(display, (128, 128, 128), (470, 125, 280, 100))
-        pygame.draw.rect(display, (128, 128, 128), (470, 230, 280, 100))
-        pygame.draw.rect(display, (128, 128, 128), (780, 230, 280, 100))
-        pygame.draw.rect(display, (50, 51, 50), (10, 10, 440, 330))
-        #
-        pygame.draw.rect(display, (50, 51, 50), (10, 350, 750, 120))
-        # отрисовка приложений
-        for app in APP:
-            display.blit(app['icon'], (int(app['x']), int(app['y'])))
-
     # Ram: Всего, Доступно, Использовано (мб), Проценты
     # Диски: Всего, Использовано, Доступно (гб), Процент
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
@@ -151,7 +135,7 @@ def drawing():
             take_a_break()
             running_line = run_line()
         if int(update_time.seconds) + int(str(update_time.microseconds)[:2]) / 100 >= 1:
-            blit_all_rect()
+            blit_all_rect(display, APP)
             temp = temperatures()
             # блок времени
             draw_time(display, inf)
@@ -175,4 +159,4 @@ def drawing():
 
 
 if __name__ == '__main__':
-    drawing()
+    main()
