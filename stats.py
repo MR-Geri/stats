@@ -1,8 +1,8 @@
 from data.drawing import print_text, draw_disk, draw_time, draw_statistic, blit_all_rect
 from data.keyboard import keyboard_layout
 from data.run_line import run_line
-from data.voice import take_a_break
-from data.apps_open import APP, open_music
+from data.voice import take_random
+from data.apps_open import APP
 from data.temperature import temperatures
 import os
 from threading import Thread
@@ -119,6 +119,7 @@ def main():
     # считываний, записей, прочитано мб, записано мб, чтение сек, запись сек.
     global time_of_the_las_passage, CPU_CHART, GPU_CHART, RAM_CHART, T_CPU_CHART, T_GPU_CHART, \
         block_run, ind_run, vl_list_run, reminder_time
+    take_random()
     info_thread = Thread(target=info)
     info_thread.start()
     running_line = run_line()
@@ -132,7 +133,8 @@ def main():
         if (now_time - reminder_time).seconds // 1800 >= 1:
             print('Обновление информации бегущей строки и напоминание.')
             reminder_time = now_time
-            take_a_break()
+            take_random(['Пора пройтись.', 'Сделайте попить.', 'Время сделать чай.', 'Сделайте зарядку.',
+                         'Смените положение.', 'Необходим перерыв.', 'Нужен отдых'])
             running_line = run_line()
         if int(update_time.seconds) + int(str(update_time.microseconds)[:2]) / 100 >= 1:
             blit_all_rect(display, APP)

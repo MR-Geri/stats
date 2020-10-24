@@ -5,10 +5,11 @@ Adobe After Effects; data/icon/adobe-aftereffects.png; D:\Adobe\"Adobe After Eff
 Adobe Photoshop; data/icon/photoshop.png; D:\Adobe\"Adobe Photoshop CC 2019"\Photoshop.exe; True
 Computer; data/icon/computer.png; C:\Users\ilyak\Desktop\"Этот компьютер.lnk"; True
 Project; data/icon/project.png; D:\PycharmProjects; True
+Tarkov; data/icon/soldier.png; D:\"Battlestate Games"\BsgLauncher\BsgLauncher.exe; True
 -----
 Яндекс Музыка; data/icon/music.png; open_music; False
 Яндекс Диск; data/icon/yandex_disk.png; C:\Users\ilyak\AppData\Roaming\Yandex\YandexDisk2\3.1.22.3711\YandexDisk2.exe; True
 WhatsApp; data/icon/whatsapp.png; C:\Users\ilyak\AppData\Local\WhatsApp\WhatsApp.exe; True
 Premiere Pro; data/icon/premiere-pro.png; D:\Adobe\"Adobe Premiere Pro 2020"\"Adobe Premiere Pro.exe"; True
 Download; data/icon/download.png; C:\Users\ilyak\Downloads; True
-Bot_VK; data/icon/bot.png; C:\Users\ilyak\Desktop\bot.lnk; True
+Папка утилиты; data/icon/bot.png; D:\PycharmProjects\stats\dist\stats; True

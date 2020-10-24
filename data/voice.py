@@ -6,8 +6,7 @@ tts = pyttsx3.init()
 tts.setProperty('voice', "ru")
 
 
-def take_a_break():
-    phrases = ['Пора пройтись.', 'Сделайте попить.', 'Время сделать чай.', 'Сделайте зарядку.',
-               'Смените положение.', 'Необходим перерыв.', 'Нужен отдых']
+def take_random(phrases=None):
+    phrases = ['Проверка'] if phrases is None else phrases
     tts.say(choice(phrases))
     tts.runAndWait()

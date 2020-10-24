@@ -5,18 +5,17 @@ from bs4 import BeautifulSoup
 def run_line():
     running_line = ['' for _ in range(2)]
     headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                             'Chrome/84.0.4147.86 YaBrowser/20.8.0.894 Yowser/2.5 Yptp/1.23 Safari/537.36',
+                             'Chrome/85.0.4183.102 YaBrowser/20.9.2.102 Yowser/2.5 Safari/537.36',
                'accept': '*/*'}
     data_soup = []
-    for url in ['евро', 'доллар']:
-        soup = BeautifulSoup(requests.get(f'https://yandex.ru/search/?text=курс%20{url}&lr=9&clid=2270455&win=431'
-                                          f'&suggest%27%20f%27_reqid=884927702159387871037738163558535&src=suggest_Rec',
+    for url in ['usd', 'eur']:
+        soup = BeautifulSoup(requests.get(f'https://mainfin.ru/currency/{url}/lipeck',
                                           headers=headers).text,
                              'html.parser')
-        for i in soup.find_all('input', class_='input__control'):
-            data_soup.append(i.get('value').split()[-1])
+        for i in soup.find_all('td', class_='mark-text'):
+            data_soup.append('{0:.2f}'.format(float(i.get_text())))
     try:
-        text = ' ' * (7 - len(str(data_soup[5])) - len(str(data_soup[2]))) + f'$ = {data_soup[5]}  € = {data_soup[2]}'
+        text = ' ' * (7 - len(data_soup[0]) - len(data_soup[1])) + f'$ = {data_soup[0]}  € = {data_soup[1]}'
     except:
         text = ''
     running_line[1] = [[[(text, 60, 140)], (255, 255, 255)]]
