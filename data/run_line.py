@@ -13,7 +13,7 @@ def run_line():
                                           headers=headers).text,
                              'html.parser')
         for i in soup.find_all('td', class_='mark-text'):
-            data_soup.append('{0:.2f}'.format(float(i.get_text())))
+            data_soup.append(f'{float(i.get_text()):.2f}')
     try:
         text = ' ' * (7 - len(data_soup[0]) - len(data_soup[1])) + f'$ = {data_soup[0]}  € = {data_soup[1]}'
     except:
