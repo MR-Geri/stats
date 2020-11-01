@@ -1693,3 +1693,48 @@
 [1024/210912.586:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
 [1024/210912.588:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
 [1024/210912.594:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1024/211720.501:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1024/211720.502:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1024/211720.524:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1025/185231.024:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1025/185231.040:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1025/185231.041:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1026/071735.043:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1026/071735.047:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1026/071735.069:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1026/151003.789:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1026/151003.799:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1026/151003.840:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1027/071602.191:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1027/071602.200:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1027/071602.243:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1027/145414.195:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1027/145414.206:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1027/145414.260:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1028/145539.176:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1028/145539.187:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1028/145539.227:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1029/145146.919:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1029/145146.920:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1029/145146.937:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1029/184759.669:WARNING:dns_config_service_win.cc(700)] Failed to read DnsConfig.
+[1029/184804.671:WARNING:dns_config_service_win.cc(700)] Failed to read DnsConfig.
+[1029/184809.673:WARNING:dns_config_service_win.cc(700)] Failed to read DnsConfig.
+[1029/184814.675:WARNING:dns_config_service_win.cc(700)] Failed to read DnsConfig.
+[1029/184819.677:WARNING:dns_config_service_win.cc(700)] Failed to read DnsConfig.
+[1029/184824.679:WARNING:dns_config_service_win.cc(700)] Failed to read DnsConfig.
+[1029/184829.683:WARNING:dns_config_service_win.cc(700)] Failed to read DnsConfig.
+[1029/184834.686:WARNING:dns_config_service_win.cc(700)] Failed to read DnsConfig.
+[1030/160400.244:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1030/160400.255:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1030/160400.289:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1031/111855.154:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1031/111855.164:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1031/111855.203:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1101/182838.250:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1101/182838.251:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1101/182838.251:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1101/215537.669:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1101/215537.669:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1101/215541.516:WARNING:resource_bundle.cc(435)] locale_file_path.empty() for locale 
+[1101/215541.531:ERROR:broker_win.cc(55)] Error reading broker pipe: Канал был закрыт. (0x6D)
