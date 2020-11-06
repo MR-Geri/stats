@@ -6,13 +6,11 @@ from data.apps_open import APP
 from data.temperature import temperatures
 import os
 from threading import Thread
-from multiprocessing import Process
 import psutil
 import datetime
 
 import pygame
 import win32gui
-
 
 inf = {"CPU": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
        "RAM": [16329, 0, 0, 0],
@@ -109,14 +107,12 @@ def main():
                     and click == 1 and last == 0:
                 print('Открытие', app['name'])
                 if app['if_os_open_name']:
-                    p1 = Process(target=os.system("start " + app['os_open']))
+                    os.system("start " + app['os_open'])
                 else:
-                    p1 = Process(target=app['os_open']())
-                p = Process(target=take_random([f'Открою {app["name"]}',
-                                                f'Сейчас открою {app["name"]}',
-                                                f'{app["name"]}, открываю.']))
-                p.run()
-                p1.run()
+                    app['os_open']()
+                take_random([f'Открою {app["name"]}',
+                             f'Сейчас открою {app["name"]}',
+                             f'{app["name"]}, открываю.'])
         last = 0 if pygame.mouse.get_pressed()[0] == 0 else 1
         last_r = 0 if pygame.mouse.get_pressed()[2] == 0 else 1
 
