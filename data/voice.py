@@ -1,5 +1,4 @@
 from random import choice
-
 import pyttsx3
 
 tts = pyttsx3.init()

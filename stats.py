@@ -6,6 +6,7 @@ from data.apps_open import APP
 from data.temperature import temperatures
 import os
 from threading import Thread
+from multiprocessing import Process
 import psutil
 import datetime
 
@@ -108,9 +109,14 @@ def main():
                     and click == 1 and last == 0:
                 print('Открытие', app['name'])
                 if app['if_os_open_name']:
-                    os.system("start " + app['os_open'])
+                    p1 = Process(target=os.system("start " + app['os_open']))
                 else:
-                    app['os_open']()
+                    p1 = Process(target=app['os_open']())
+                p = Process(target=take_random([f'Открою {app["name"]}',
+                                                f'Сейчас открою {app["name"]}',
+                                                f'{app["name"]}, открываю.']))
+                p.run()
+                p1.run()
         last = 0 if pygame.mouse.get_pressed()[0] == 0 else 1
         last_r = 0 if pygame.mouse.get_pressed()[2] == 0 else 1
 
