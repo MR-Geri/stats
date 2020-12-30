@@ -137,7 +137,10 @@ def main():
             reminder_time = now_time
             take_random(['Пора пройтись.', 'Сделайте попить.', 'Время сделать чай.', 'Сделайте зарядку.',
                          'Смените положение.', 'Необходим перерыв.', 'Нужен отдых'])
-            running_line = run_line()
+            try:
+                running_line = run_line()
+            except Exception as e:
+                print('Обновление информации не удалось: ', e)
         if int(update_time.seconds) + int(str(update_time.microseconds)[:2]) / 100 >= 1:
             blit_all_rect(display, APP)
             temp = temperatures()

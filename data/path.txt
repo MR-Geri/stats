@@ -1,6 +1,6 @@
 
-Pycharm; data/icon/pycharm.png; D:\pycharm\"PyCharm 2020.1"\bin\pycharm64.exe; True
-Discord; data/icon/discord.png; C:\Users\ilyak\AppData\Local\Discord\app-0.0.307\Discord.exe; True
+Pycharm; data/icon/pycharm.png; C:\Users\ilyak\AppData\Local\JetBrains\Toolbox\apps\PyCharm-P\ch-0\202.7660.27\bin\pycharm64.exe; True
+Discord; data/icon/discord.png; C:\Users\ilyak\AppData\Local\Discord\app-0.0.309\Discord.exe; True
 Adobe After Effects; data/icon/adobe-aftereffects.png; D:\Adobe\"Adobe After Effects CC 2019"\"Support Files"\AfterFX.exe; True
 Adobe Photoshop; data/icon/photoshop.png; D:\Adobe\"Adobe Photoshop CC 2019"\Photoshop.exe; True
 Computer; data/icon/computer.png; C:\Users\ilyak\Desktop\"Этот компьютер.lnk"; True
