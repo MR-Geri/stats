@@ -10,6 +10,7 @@ class ZAxis(_BaseLayoutHierarchyType):
     _path_str = "layout.scene.zaxis"
     _valid_props = {
         "autorange",
+        "autotypenumbers",
         "backgroundcolor",
         "calendar",
         "categoryarray",
@@ -23,6 +24,7 @@ class ZAxis(_BaseLayoutHierarchyType):
         "hoverformat",
         "linecolor",
         "linewidth",
+        "minexponent",
         "mirror",
         "nticks",
         "range",
@@ -88,6 +90,30 @@ class ZAxis(_BaseLayoutHierarchyType):
     @autorange.setter
     def autorange(self, val):
         self["autorange"] = val
+
+    # autotypenumbers
+    # ---------------
+    @property
+    def autotypenumbers(self):
+        """
+        Using "strict" a numeric string in trace data is not converted
+        to a number. Using *convert types* a numeric string in trace
+        data may be treated as a number during automatic axis `type`
+        detection. Defaults to layout.autotypenumbers.
+    
+        The 'autotypenumbers' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['convert types', 'strict']
+
+        Returns
+        -------
+        Any
+        """
+        return self["autotypenumbers"]
+
+    @autotypenumbers.setter
+    def autotypenumbers(self, val):
+        self["autotypenumbers"] = val
 
     # backgroundcolor
     # ---------------
@@ -471,11 +497,10 @@ class ZAxis(_BaseLayoutHierarchyType):
         languages which are very similar to those in Python. For
         numbers, see: https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format And for dates
-        see: https://github.com/d3/d3-3.x-api-
-        reference/blob/master/Time-Formatting.md#format We add one item
-        to d3's date formatter: "%{n}f" for fractional seconds with n
-        digits. For example, *2016-10-13 09:15:23.456* with tickformat
-        "%H~%M~%S.%2f" would display "09~15~23.46"
+        see: https://github.com/d3/d3-time-format#locale_format We add
+        one item to d3's date formatter: "%{n}f" for fractional seconds
+        with n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
     
         The 'hoverformat' property is a string and must be specified as:
           - A string
@@ -569,6 +594,27 @@ class ZAxis(_BaseLayoutHierarchyType):
     @linewidth.setter
     def linewidth(self, val):
         self["linewidth"] = val
+
+    # minexponent
+    # -----------
+    @property
+    def minexponent(self):
+        """
+        Hide SI prefix for 10^n if |n| is below this number. This only
+        has an effect when `tickformat` is "SI" or "B".
+    
+        The 'minexponent' property is a number and may be specified as:
+          - An int or float in the interval [0, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["minexponent"]
+
+    @minexponent.setter
+    def minexponent(self, val):
+        self["minexponent"] = val
 
     # mirror
     # ------
@@ -1151,11 +1197,10 @@ class ZAxis(_BaseLayoutHierarchyType):
         languages which are very similar to those in Python. For
         numbers, see: https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format And for dates
-        see: https://github.com/d3/d3-3.x-api-
-        reference/blob/master/Time-Formatting.md#format We add one item
-        to d3's date formatter: "%{n}f" for fractional seconds with n
-        digits. For example, *2016-10-13 09:15:23.456* with tickformat
-        "%H~%M~%S.%2f" would display "09~15~23.46"
+        see: https://github.com/d3/d3-time-format#locale_format We add
+        one item to d3's date formatter: "%{n}f" for fractional seconds
+        with n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
     
         The 'tickformat' property is a string and must be specified as:
           - A string
@@ -1709,6 +1754,12 @@ class ZAxis(_BaseLayoutHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         backgroundcolor
             Sets the background color of this axis' wall.
         calendar
@@ -1785,16 +1836,19 @@ class ZAxis(_BaseLayoutHierarchyType):
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format And for
-            dates see: https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format We add
-            one item to d3's date formatter: "%{n}f" for fractional
-            seconds with n digits. For example, *2016-10-13
-            09:15:23.456* with tickformat "%H~%M~%S.%2f" would
-            display "09~15~23.46"
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format We add one item to d3's date
+            formatter: "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         linecolor
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         mirror
             Determines if the axis lines or/and ticks are mirrored
             to the opposite side of the plotting area. If True, the
@@ -1889,12 +1943,11 @@ class ZAxis(_BaseLayoutHierarchyType):
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format And for
-            dates see: https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format We add
-            one item to d3's date formatter: "%{n}f" for fractional
-            seconds with n digits. For example, *2016-10-13
-            09:15:23.456* with tickformat "%H~%M~%S.%2f" would
-            display "09~15~23.46"
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format We add one item to d3's date
+            formatter: "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         tickformatstops
             A tuple of :class:`plotly.graph_objects.layout.scene.za
             xis.Tickformatstop` instances or dicts with compatible
@@ -1971,6 +2024,7 @@ class ZAxis(_BaseLayoutHierarchyType):
         self,
         arg=None,
         autorange=None,
+        autotypenumbers=None,
         backgroundcolor=None,
         calendar=None,
         categoryarray=None,
@@ -1984,6 +2038,7 @@ class ZAxis(_BaseLayoutHierarchyType):
         hoverformat=None,
         linecolor=None,
         linewidth=None,
+        minexponent=None,
         mirror=None,
         nticks=None,
         range=None,
@@ -2041,6 +2096,12 @@ class ZAxis(_BaseLayoutHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         backgroundcolor
             Sets the background color of this axis' wall.
         calendar
@@ -2117,16 +2178,19 @@ class ZAxis(_BaseLayoutHierarchyType):
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format And for
-            dates see: https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format We add
-            one item to d3's date formatter: "%{n}f" for fractional
-            seconds with n digits. For example, *2016-10-13
-            09:15:23.456* with tickformat "%H~%M~%S.%2f" would
-            display "09~15~23.46"
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format We add one item to d3's date
+            formatter: "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         linecolor
             Sets the axis line color.
         linewidth
             Sets the width (in px) of the axis line.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         mirror
             Determines if the axis lines or/and ticks are mirrored
             to the opposite side of the plotting area. If True, the
@@ -2221,12 +2285,11 @@ class ZAxis(_BaseLayoutHierarchyType):
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format And for
-            dates see: https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format We add
-            one item to d3's date formatter: "%{n}f" for fractional
-            seconds with n digits. For example, *2016-10-13
-            09:15:23.456* with tickformat "%H~%M~%S.%2f" would
-            display "09~15~23.46"
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format We add one item to d3's date
+            formatter: "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         tickformatstops
             A tuple of :class:`plotly.graph_objects.layout.scene.za
             xis.Tickformatstop` instances or dicts with compatible
@@ -2333,6 +2396,10 @@ an instance of :class:`plotly.graph_objs.layout.scene.ZAxis`"""
         _v = autorange if autorange is not None else _v
         if _v is not None:
             self["autorange"] = _v
+        _v = arg.pop("autotypenumbers", None)
+        _v = autotypenumbers if autotypenumbers is not None else _v
+        if _v is not None:
+            self["autotypenumbers"] = _v
         _v = arg.pop("backgroundcolor", None)
         _v = backgroundcolor if backgroundcolor is not None else _v
         if _v is not None:
@@ -2385,6 +2452,10 @@ an instance of :class:`plotly.graph_objs.layout.scene.ZAxis`"""
         _v = linewidth if linewidth is not None else _v
         if _v is not None:
             self["linewidth"] = _v
+        _v = arg.pop("minexponent", None)
+        _v = minexponent if minexponent is not None else _v
+        if _v is not None:
+            self["minexponent"] = _v
         _v = arg.pop("mirror", None)
         _v = mirror if mirror is not None else _v
         if _v is not None:

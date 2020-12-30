@@ -2,44 +2,44 @@
 typelib_path = 'C:\\Windows\\System32\\stdole2.tlb'
 _lcid = 0 # change this if required
 from ctypes import *
-OLE_YSIZE_HIMETRIC = c_int
-from comtypes.automation import IEnumVARIANT
 from comtypes.automation import IDispatch
 from comtypes import GUID
 OLE_HANDLE = c_int
 OLE_XSIZE_HIMETRIC = c_int
+OLE_YSIZE_HIMETRIC = c_int
 OLE_XPOS_HIMETRIC = c_int
 OLE_YPOS_HIMETRIC = c_int
 from comtypes import dispid
 from comtypes import DISPMETHOD, DISPPROPERTY, helpstring
-OLE_XPOS_CONTAINER = c_float
-OLE_YPOS_CONTAINER = c_float
+from comtypes.automation import EXCEPINFO
+from comtypes import CoClass
+OLE_COLOR = c_ulong
 from comtypes import BSTR
 from ctypes.wintypes import VARIANT_BOOL
+OLE_XPOS_PIXELS = c_int
+FONTBOLD = VARIANT_BOOL
+FONTSIZE = c_longlong
+OLE_YPOS_PIXELS = c_int
 from comtypes import IUnknown
+from ctypes import HRESULT
+from comtypes import helpstring
+from comtypes import COMMETHOD
+from comtypes import GUID
+OLE_XSIZE_PIXELS = c_int
+FONTITALIC = VARIANT_BOOL
+OLE_YSIZE_PIXELS = c_int
+FONTUNDERSCORE = VARIANT_BOOL
+FONTSTRIKETHROUGH = VARIANT_BOOL
+from comtypes.automation import IEnumVARIANT
+OLE_XPOS_CONTAINER = c_float
+from comtypes.automation import DISPPARAMS
+OLE_YPOS_CONTAINER = c_float
 OLE_XSIZE_CONTAINER = c_float
 OLE_YSIZE_CONTAINER = c_float
 OLE_OPTEXCLUSIVE = VARIANT_BOOL
 OLE_CANCELBOOL = VARIANT_BOOL
-OLE_ENABLEDEFAULTBOOL = VARIANT_BOOL
-FONTSIZE = c_longlong
-from comtypes import CoClass
-OLE_COLOR = c_ulong
-FONTBOLD = VARIANT_BOOL
-OLE_XPOS_PIXELS = c_int
 FONTNAME = BSTR
-from ctypes import HRESULT
-from comtypes import helpstring
-from comtypes import COMMETHOD
-OLE_YPOS_PIXELS = c_int
-from comtypes import GUID
-from comtypes.automation import EXCEPINFO
-FONTITALIC = VARIANT_BOOL
-OLE_XSIZE_PIXELS = c_int
-FONTUNDERSCORE = VARIANT_BOOL
-OLE_YSIZE_PIXELS = c_int
-FONTSTRIKETHROUGH = VARIANT_BOOL
-from comtypes.automation import DISPPARAMS
+OLE_ENABLEDEFAULTBOOL = VARIANT_BOOL
 
 
 class Picture(IDispatch):
@@ -65,21 +65,6 @@ Picture._disp_methods_ = [
                ( [], OLE_YSIZE_HIMETRIC, 'cySrc' ),
                ( [], c_void_p, 'prcWBounds' )),
 ]
-class Font(IDispatch):
-    _case_insensitive_ = True
-    _iid_ = GUID('{BEF6E003-A874-101A-8BBA-00AA00300CAB}')
-    _idlflags_ = []
-    _methods_ = []
-Font._disp_methods_ = [
-    DISPPROPERTY([dispid(0)], BSTR, 'Name'),
-    DISPPROPERTY([dispid(2)], c_longlong, 'Size'),
-    DISPPROPERTY([dispid(3)], VARIANT_BOOL, 'Bold'),
-    DISPPROPERTY([dispid(4)], VARIANT_BOOL, 'Italic'),
-    DISPPROPERTY([dispid(5)], VARIANT_BOOL, 'Underline'),
-    DISPPROPERTY([dispid(6)], VARIANT_BOOL, 'Strikethrough'),
-    DISPPROPERTY([dispid(7)], c_short, 'Weight'),
-    DISPPROPERTY([dispid(8)], c_short, 'Charset'),
-]
 IPictureDisp = Picture
 
 # values for enumeration 'OLE_TRISTATE'
@@ -87,6 +72,11 @@ Unchecked = 0
 Checked = 1
 Gray = 2
 OLE_TRISTATE = c_int # enum
+class Library(object):
+    'OLE Automation'
+    name = 'stdole'
+    _reg_typelib_ = ('{00020430-0000-0000-C000-000000000046}', 2, 0)
+
 class StdPicture(CoClass):
     _reg_clsid_ = GUID('{0BE35204-8F91-11CE-9DE3-00AA004BB851}')
     _idlflags_ = []
@@ -106,6 +96,21 @@ Monochrome = 1
 VgaColor = 2
 Color = 4
 LoadPictureConstants = c_int # enum
+class Font(IDispatch):
+    _case_insensitive_ = True
+    _iid_ = GUID('{BEF6E003-A874-101A-8BBA-00AA00300CAB}')
+    _idlflags_ = []
+    _methods_ = []
+Font._disp_methods_ = [
+    DISPPROPERTY([dispid(0)], BSTR, 'Name'),
+    DISPPROPERTY([dispid(2)], c_longlong, 'Size'),
+    DISPPROPERTY([dispid(3)], VARIANT_BOOL, 'Bold'),
+    DISPPROPERTY([dispid(4)], VARIANT_BOOL, 'Italic'),
+    DISPPROPERTY([dispid(5)], VARIANT_BOOL, 'Underline'),
+    DISPPROPERTY([dispid(6)], VARIANT_BOOL, 'Strikethrough'),
+    DISPPROPERTY([dispid(7)], c_short, 'Weight'),
+    DISPPROPERTY([dispid(8)], c_short, 'Charset'),
+]
 IFontDisp = Font
 IPicture._methods_ = [
     COMMETHOD(['propget'], HRESULT, 'Handle',
@@ -218,11 +223,6 @@ IPicture._methods_ = [
 ##        '-no docstring-'
 ##        #return 
 ##
-
-class Library(object):
-    'OLE Automation'
-    name = 'stdole'
-    _reg_typelib_ = ('{00020430-0000-0000-C000-000000000046}', 2, 0)
 
 class StdFont(CoClass):
     _reg_clsid_ = GUID('{0BE35203-8F91-11CE-9DE3-00AA004BB851}')
@@ -380,17 +380,17 @@ IFont._methods_ = [
 ##
 
 IFontEventsDisp = FontEvents
-__all__ = [ 'FONTBOLD', 'OLE_COLOR', 'FONTUNDERSCORE', 'OLE_HANDLE',
-           'OLE_TRISTATE', 'OLE_CANCELBOOL', 'OLE_XSIZE_PIXELS',
-           'Default', 'OLE_XPOS_PIXELS', 'OLE_ENABLEDEFAULTBOOL',
-           'StdPicture', 'StdFont', 'OLE_XSIZE_CONTAINER',
-           'OLE_YSIZE_CONTAINER', 'IFontEventsDisp', 'Color', 'IFont',
-           'IPicture', 'LoadPictureConstants', 'FONTSIZE', 'Checked',
-           'Gray', 'OLE_YPOS_HIMETRIC', 'OLE_OPTEXCLUSIVE', 'Font',
-           'OLE_XPOS_HIMETRIC', 'FONTNAME', 'Monochrome',
-           'OLE_XSIZE_HIMETRIC', 'Picture', 'OLE_XPOS_CONTAINER',
-           'IFontDisp', 'OLE_YSIZE_PIXELS', 'FONTITALIC', 'Unchecked',
-           'IPictureDisp', 'VgaColor', 'FONTSTRIKETHROUGH',
-           'FontEvents', 'OLE_YPOS_CONTAINER', 'OLE_YSIZE_HIMETRIC',
-           'OLE_YPOS_PIXELS']
-from comtypes import _check_version; _check_version('')
+__all__ = [ 'IPicture', 'Default', 'Checked', 'Font', 'StdPicture',
+           'IFont', 'OLE_XPOS_CONTAINER', 'FONTITALIC',
+           'OLE_ENABLEDEFAULTBOOL', 'IFontDisp', 'OLE_OPTEXCLUSIVE',
+           'FONTSIZE', 'Color', 'OLE_YSIZE_HIMETRIC',
+           'OLE_YPOS_HIMETRIC', 'Picture', 'OLE_YPOS_CONTAINER',
+           'LoadPictureConstants', 'OLE_YSIZE_PIXELS',
+           'OLE_XSIZE_HIMETRIC', 'Gray', 'OLE_YSIZE_CONTAINER',
+           'OLE_HANDLE', 'VgaColor', 'FONTBOLD', 'OLE_XPOS_PIXELS',
+           'IPictureDisp', 'OLE_TRISTATE', 'OLE_XSIZE_PIXELS',
+           'FONTUNDERSCORE', 'OLE_CANCELBOOL', 'FONTSTRIKETHROUGH',
+           'OLE_XPOS_HIMETRIC', 'Unchecked', 'OLE_COLOR',
+           'FontEvents', 'OLE_YPOS_PIXELS', 'IFontEventsDisp',
+           'FONTNAME', 'StdFont', 'Monochrome', 'OLE_XSIZE_CONTAINER']
+from comtypes import _check_version; _check_version('', 1552970625.570791)

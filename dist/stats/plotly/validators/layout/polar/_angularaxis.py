@@ -10,6 +10,13 @@ class AngularaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
             data_docs=kwargs.pop(
                 "data_docs",
                 """
+            autotypenumbers
+                Using "strict" a numeric string in trace data
+                is not converted to a number. Using *convert
+                types* a numeric string in trace data may be
+                treated as a number during automatic axis
+                `type` detection. Defaults to
+                layout.autotypenumbers.
             categoryarray
                 Sets the order in which categories on this axis
                 appear. Only has an effect if `categoryorder`
@@ -92,13 +99,12 @@ class AngularaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 https://github.com/d3/d3-3.x-api-
                 reference/blob/master/Formatting.md#d3_format
                 And for dates see:
-                https://github.com/d3/d3-3.x-api-
-                reference/blob/master/Time-Formatting.md#format
-                We add one item to d3's date formatter: "%{n}f"
-                for fractional seconds with n digits. For
-                example, *2016-10-13 09:15:23.456* with
-                tickformat "%H~%M~%S.%2f" would display
-                "09~15~23.46"
+                https://github.com/d3/d3-time-
+                format#locale_format We add one item to d3's
+                date formatter: "%{n}f" for fractional seconds
+                with n digits. For example, *2016-10-13
+                09:15:23.456* with tickformat "%H~%M~%S.%2f"
+                would display "09~15~23.46"
             layer
                 Sets the layer on which this axis is displayed.
                 If *above traces*, this axis is displayed above
@@ -112,6 +118,10 @@ class AngularaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 Sets the axis line color.
             linewidth
                 Sets the width (in px) of the axis line.
+            minexponent
+                Hide SI prefix for 10^n if |n| is below this
+                number. This only has an effect when
+                `tickformat` is "SI" or "B".
             nticks
                 Specifies the maximum number of ticks for the
                 particular axis. The actual number of ticks
@@ -187,13 +197,12 @@ class AngularaxisValidator(_plotly_utils.basevalidators.CompoundValidator):
                 https://github.com/d3/d3-3.x-api-
                 reference/blob/master/Formatting.md#d3_format
                 And for dates see:
-                https://github.com/d3/d3-3.x-api-
-                reference/blob/master/Time-Formatting.md#format
-                We add one item to d3's date formatter: "%{n}f"
-                for fractional seconds with n digits. For
-                example, *2016-10-13 09:15:23.456* with
-                tickformat "%H~%M~%S.%2f" would display
-                "09~15~23.46"
+                https://github.com/d3/d3-time-
+                format#locale_format We add one item to d3's
+                date formatter: "%{n}f" for fractional seconds
+                with n digits. For example, *2016-10-13
+                09:15:23.456* with tickformat "%H~%M~%S.%2f"
+                would display "09~15~23.46"
             tickformatstops
                 A tuple of :class:`plotly.graph_objects.layout.
                 polar.angularaxis.Tickformatstop` instances or

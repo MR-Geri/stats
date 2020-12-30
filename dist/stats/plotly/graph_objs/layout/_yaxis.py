@@ -12,6 +12,7 @@ class YAxis(_BaseLayoutHierarchyType):
         "anchor",
         "automargin",
         "autorange",
+        "autotypenumbers",
         "calendar",
         "categoryarray",
         "categoryarraysrc",
@@ -32,6 +33,7 @@ class YAxis(_BaseLayoutHierarchyType):
         "linecolor",
         "linewidth",
         "matches",
+        "minexponent",
         "mirror",
         "nticks",
         "overlaying",
@@ -64,6 +66,8 @@ class YAxis(_BaseLayoutHierarchyType):
         "tickformat",
         "tickformatstopdefaults",
         "tickformatstops",
+        "ticklabelmode",
+        "ticklabelposition",
         "ticklen",
         "tickmode",
         "tickprefix",
@@ -98,7 +102,8 @@ class YAxis(_BaseLayoutHierarchyType):
           - One of the following enumeration values:
                 ['free']
           - A string that matches one of the following regular expressions:
-                ['^x([2-9]|[1-9][0-9]+)?$', '^y([2-9]|[1-9][0-9]+)?$']
+                ['^x([2-9]|[1-9][0-9]+)?( domain)?$',
+                '^y([2-9]|[1-9][0-9]+)?( domain)?$']
 
         Returns
         -------
@@ -153,6 +158,30 @@ class YAxis(_BaseLayoutHierarchyType):
     @autorange.setter
     def autorange(self, val):
         self["autorange"] = val
+
+    # autotypenumbers
+    # ---------------
+    @property
+    def autotypenumbers(self):
+        """
+        Using "strict" a numeric string in trace data is not converted
+        to a number. Using *convert types* a numeric string in trace
+        data may be treated as a number during automatic axis `type`
+        detection. Defaults to layout.autotypenumbers.
+    
+        The 'autotypenumbers' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['convert types', 'strict']
+
+        Returns
+        -------
+        Any
+        """
+        return self["autotypenumbers"]
+
+    @autotypenumbers.setter
+    def autotypenumbers(self, val):
+        self["autotypenumbers"] = val
 
     # calendar
     # --------
@@ -333,8 +362,9 @@ class YAxis(_BaseLayoutHierarchyType):
         """
         If this axis needs to be compressed (either due to its own
         `scaleanchor` and `scaleratio` or those of the other axis),
-        determines how that happens: by increasing the "range"
-        (default), or by decreasing the "domain".
+        determines how that happens: by increasing the "range", or by
+        decreasing the "domain". Default is "domain" for axes
+        containing image traces, "range" otherwise.
     
         The 'constrain' property is an enumeration that may be specified as:
           - One of the following enumeration values:
@@ -654,11 +684,10 @@ class YAxis(_BaseLayoutHierarchyType):
         languages which are very similar to those in Python. For
         numbers, see: https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format And for dates
-        see: https://github.com/d3/d3-3.x-api-
-        reference/blob/master/Time-Formatting.md#format We add one item
-        to d3's date formatter: "%{n}f" for fractional seconds with n
-        digits. For example, *2016-10-13 09:15:23.456* with tickformat
-        "%H~%M~%S.%2f" would display "09~15~23.46"
+        see: https://github.com/d3/d3-time-format#locale_format We add
+        one item to d3's date formatter: "%{n}f" for fractional seconds
+        with n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
     
         The 'hoverformat' property is a string and must be specified as:
           - A string
@@ -794,7 +823,8 @@ class YAxis(_BaseLayoutHierarchyType):
     
         The 'matches' property is an enumeration that may be specified as:
           - A string that matches one of the following regular expressions:
-                ['^x([2-9]|[1-9][0-9]+)?$', '^y([2-9]|[1-9][0-9]+)?$']
+                ['^x([2-9]|[1-9][0-9]+)?( domain)?$',
+                '^y([2-9]|[1-9][0-9]+)?( domain)?$']
 
         Returns
         -------
@@ -805,6 +835,27 @@ class YAxis(_BaseLayoutHierarchyType):
     @matches.setter
     def matches(self, val):
         self["matches"] = val
+
+    # minexponent
+    # -----------
+    @property
+    def minexponent(self):
+        """
+        Hide SI prefix for 10^n if |n| is below this number. This only
+        has an effect when `tickformat` is "SI" or "B".
+    
+        The 'minexponent' property is a number and may be specified as:
+          - An int or float in the interval [0, inf]
+
+        Returns
+        -------
+        int|float
+        """
+        return self["minexponent"]
+
+    @minexponent.setter
+    def minexponent(self, val):
+        self["minexponent"] = val
 
     # mirror
     # ------
@@ -871,7 +922,8 @@ class YAxis(_BaseLayoutHierarchyType):
           - One of the following enumeration values:
                 ['free']
           - A string that matches one of the following regular expressions:
-                ['^x([2-9]|[1-9][0-9]+)?$', '^y([2-9]|[1-9][0-9]+)?$']
+                ['^x([2-9]|[1-9][0-9]+)?( domain)?$',
+                '^y([2-9]|[1-9][0-9]+)?( domain)?$']
 
         Returns
         -------
@@ -1087,7 +1139,8 @@ class YAxis(_BaseLayoutHierarchyType):
     
         The 'scaleanchor' property is an enumeration that may be specified as:
           - A string that matches one of the following regular expressions:
-                ['^x([2-9]|[1-9][0-9]+)?$', '^y([2-9]|[1-9][0-9]+)?$']
+                ['^x([2-9]|[1-9][0-9]+)?( domain)?$',
+                '^y([2-9]|[1-9][0-9]+)?( domain)?$']
 
         Returns
         -------
@@ -1658,11 +1711,10 @@ class YAxis(_BaseLayoutHierarchyType):
         languages which are very similar to those in Python. For
         numbers, see: https://github.com/d3/d3-3.x-api-
         reference/blob/master/Formatting.md#d3_format And for dates
-        see: https://github.com/d3/d3-3.x-api-
-        reference/blob/master/Time-Formatting.md#format We add one item
-        to d3's date formatter: "%{n}f" for fractional seconds with n
-        digits. For example, *2016-10-13 09:15:23.456* with tickformat
-        "%H~%M~%S.%2f" would display "09~15~23.46"
+        see: https://github.com/d3/d3-time-format#locale_format We add
+        one item to d3's date formatter: "%{n}f" for fractional seconds
+        with n digits. For example, *2016-10-13 09:15:23.456* with
+        tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
     
         The 'tickformat' property is a string and must be specified as:
           - A string
@@ -1762,6 +1814,60 @@ class YAxis(_BaseLayoutHierarchyType):
     @tickformatstopdefaults.setter
     def tickformatstopdefaults(self, val):
         self["tickformatstopdefaults"] = val
+
+    # ticklabelmode
+    # -------------
+    @property
+    def ticklabelmode(self):
+        """
+        Determines where tick labels are drawn with respect to their
+        corresponding ticks and grid lines. Only has an effect for axes
+        of `type` "date" When set to "period", tick labels are drawn in
+        the middle of the period between ticks.
+    
+        The 'ticklabelmode' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['instant', 'period']
+
+        Returns
+        -------
+        Any
+        """
+        return self["ticklabelmode"]
+
+    @ticklabelmode.setter
+    def ticklabelmode(self, val):
+        self["ticklabelmode"] = val
+
+    # ticklabelposition
+    # -----------------
+    @property
+    def ticklabelposition(self):
+        """
+        Determines where tick labels are drawn with respect to the axis
+        Please note that top or bottom has no effect on x axes or when
+        `ticklabelmode` is set to "period". Similarly left or right has
+        no effect on y axes or when `ticklabelmode` is set to "period".
+        Has no effect on "multicategory" axes or when `tickson` is set
+        to "boundaries". When used on axes linked by `matches` or
+        `scaleanchor`, no extra padding for inside labels would be
+        added by autorange, so that the scales could match.
+    
+        The 'ticklabelposition' property is an enumeration that may be specified as:
+          - One of the following enumeration values:
+                ['outside', 'inside', 'outside top', 'inside top',
+                'outside left', 'inside left', 'outside right', 'inside
+                right', 'outside bottom', 'inside bottom']
+
+        Returns
+        -------
+        Any
+        """
+        return self["ticklabelposition"]
+
+    @ticklabelposition.setter
+    def ticklabelposition(self, val):
+        self["ticklabelposition"] = val
 
     # ticklen
     # -------
@@ -2283,6 +2389,12 @@ class YAxis(_BaseLayoutHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         calendar
             Sets the calendar system to use for `range` and `tick0`
             if this is a date axis. This does not set the calendar
@@ -2321,7 +2433,9 @@ class YAxis(_BaseLayoutHierarchyType):
             If this axis needs to be compressed (either due to its
             own `scaleanchor` and `scaleratio` or those of the
             other axis), determines how that happens: by increasing
-            the "range" (default), or by decreasing the "domain".
+            the "range", or by decreasing the "domain". Default is
+            "domain" for axes containing image traces, "range"
+            otherwise.
         constraintoward
             If this axis needs to be compressed (either due to its
             own `scaleanchor` and `scaleratio` or those of the
@@ -2380,12 +2494,11 @@ class YAxis(_BaseLayoutHierarchyType):
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format And for
-            dates see: https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format We add
-            one item to d3's date formatter: "%{n}f" for fractional
-            seconds with n digits. For example, *2016-10-13
-            09:15:23.456* with tickformat "%H~%M~%S.%2f" would
-            display "09~15~23.46"
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format We add one item to d3's date
+            formatter: "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         layer
             Sets the layer on which this axis is displayed. If
             *above traces*, this axis is displayed above all the
@@ -2407,6 +2520,10 @@ class YAxis(_BaseLayoutHierarchyType):
             both a `scaleanchor` and a `matches` constraint is
             currently forbidden. Moreover, note that matching axes
             must have the same `type`.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         mirror
             Determines if the axis lines or/and ticks are mirrored
             to the opposite side of the plotting area. If True, the
@@ -2566,12 +2683,11 @@ class YAxis(_BaseLayoutHierarchyType):
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format And for
-            dates see: https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format We add
-            one item to d3's date formatter: "%{n}f" for fractional
-            seconds with n digits. For example, *2016-10-13
-            09:15:23.456* with tickformat "%H~%M~%S.%2f" would
-            display "09~15~23.46"
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format We add one item to d3's date
+            formatter: "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         tickformatstops
             A tuple of :class:`plotly.graph_objects.layout.yaxis.Ti
             ckformatstop` instances or dicts with compatible
@@ -2581,6 +2697,22 @@ class YAxis(_BaseLayoutHierarchyType):
             layout.template.layout.yaxis.tickformatstopdefaults),
             sets the default property values to use for elements of
             layout.yaxis.tickformatstops
+        ticklabelmode
+            Determines where tick labels are drawn with respect to
+            their corresponding ticks and grid lines. Only has an
+            effect for axes of `type` "date" When set to "period",
+            tick labels are drawn in the middle of the period
+            between ticks.
+        ticklabelposition
+            Determines where tick labels are drawn with respect to
+            the axis Please note that top or bottom has no effect
+            on x axes or when `ticklabelmode` is set to "period".
+            Similarly left or right has no effect on y axes or when
+            `ticklabelmode` is set to "period". Has no effect on
+            "multicategory" axes or when `tickson` is set to
+            "boundaries". When used on axes linked by `matches` or
+            `scaleanchor`, no extra padding for inside labels would
+            be added by autorange, so that the scales could match.
         ticklen
             Sets the tick length (in px).
         tickmode
@@ -2661,6 +2793,7 @@ class YAxis(_BaseLayoutHierarchyType):
         anchor=None,
         automargin=None,
         autorange=None,
+        autotypenumbers=None,
         calendar=None,
         categoryarray=None,
         categoryarraysrc=None,
@@ -2681,6 +2814,7 @@ class YAxis(_BaseLayoutHierarchyType):
         linecolor=None,
         linewidth=None,
         matches=None,
+        minexponent=None,
         mirror=None,
         nticks=None,
         overlaying=None,
@@ -2713,6 +2847,8 @@ class YAxis(_BaseLayoutHierarchyType):
         tickformat=None,
         tickformatstops=None,
         tickformatstopdefaults=None,
+        ticklabelmode=None,
+        ticklabelposition=None,
         ticklen=None,
         tickmode=None,
         tickprefix=None,
@@ -2755,6 +2891,12 @@ class YAxis(_BaseLayoutHierarchyType):
             computed in relation to the input data. See `rangemode`
             for more info. If `range` is provided, then `autorange`
             is set to False.
+        autotypenumbers
+            Using "strict" a numeric string in trace data is not
+            converted to a number. Using *convert types* a numeric
+            string in trace data may be treated as a number during
+            automatic axis `type` detection. Defaults to
+            layout.autotypenumbers.
         calendar
             Sets the calendar system to use for `range` and `tick0`
             if this is a date axis. This does not set the calendar
@@ -2793,7 +2935,9 @@ class YAxis(_BaseLayoutHierarchyType):
             If this axis needs to be compressed (either due to its
             own `scaleanchor` and `scaleratio` or those of the
             other axis), determines how that happens: by increasing
-            the "range" (default), or by decreasing the "domain".
+            the "range", or by decreasing the "domain". Default is
+            "domain" for axes containing image traces, "range"
+            otherwise.
         constraintoward
             If this axis needs to be compressed (either due to its
             own `scaleanchor` and `scaleratio` or those of the
@@ -2852,12 +2996,11 @@ class YAxis(_BaseLayoutHierarchyType):
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format And for
-            dates see: https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format We add
-            one item to d3's date formatter: "%{n}f" for fractional
-            seconds with n digits. For example, *2016-10-13
-            09:15:23.456* with tickformat "%H~%M~%S.%2f" would
-            display "09~15~23.46"
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format We add one item to d3's date
+            formatter: "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         layer
             Sets the layer on which this axis is displayed. If
             *above traces*, this axis is displayed above all the
@@ -2879,6 +3022,10 @@ class YAxis(_BaseLayoutHierarchyType):
             both a `scaleanchor` and a `matches` constraint is
             currently forbidden. Moreover, note that matching axes
             must have the same `type`.
+        minexponent
+            Hide SI prefix for 10^n if |n| is below this number.
+            This only has an effect when `tickformat` is "SI" or
+            "B".
         mirror
             Determines if the axis lines or/and ticks are mirrored
             to the opposite side of the plotting area. If True, the
@@ -3038,12 +3185,11 @@ class YAxis(_BaseLayoutHierarchyType):
             Python. For numbers, see:
             https://github.com/d3/d3-3.x-api-
             reference/blob/master/Formatting.md#d3_format And for
-            dates see: https://github.com/d3/d3-3.x-api-
-            reference/blob/master/Time-Formatting.md#format We add
-            one item to d3's date formatter: "%{n}f" for fractional
-            seconds with n digits. For example, *2016-10-13
-            09:15:23.456* with tickformat "%H~%M~%S.%2f" would
-            display "09~15~23.46"
+            dates see: https://github.com/d3/d3-time-
+            format#locale_format We add one item to d3's date
+            formatter: "%{n}f" for fractional seconds with n
+            digits. For example, *2016-10-13 09:15:23.456* with
+            tickformat "%H~%M~%S.%2f" would display "09~15~23.46"
         tickformatstops
             A tuple of :class:`plotly.graph_objects.layout.yaxis.Ti
             ckformatstop` instances or dicts with compatible
@@ -3053,6 +3199,22 @@ class YAxis(_BaseLayoutHierarchyType):
             layout.template.layout.yaxis.tickformatstopdefaults),
             sets the default property values to use for elements of
             layout.yaxis.tickformatstops
+        ticklabelmode
+            Determines where tick labels are drawn with respect to
+            their corresponding ticks and grid lines. Only has an
+            effect for axes of `type` "date" When set to "period",
+            tick labels are drawn in the middle of the period
+            between ticks.
+        ticklabelposition
+            Determines where tick labels are drawn with respect to
+            the axis Please note that top or bottom has no effect
+            on x axes or when `ticklabelmode` is set to "period".
+            Similarly left or right has no effect on y axes or when
+            `ticklabelmode` is set to "period". Has no effect on
+            "multicategory" axes or when `tickson` is set to
+            "boundaries". When used on axes linked by `matches` or
+            `scaleanchor`, no extra padding for inside labels would
+            be added by autorange, so that the scales could match.
         ticklen
             Sets the tick length (in px).
         tickmode
@@ -3169,6 +3331,10 @@ an instance of :class:`plotly.graph_objs.layout.YAxis`"""
         _v = autorange if autorange is not None else _v
         if _v is not None:
             self["autorange"] = _v
+        _v = arg.pop("autotypenumbers", None)
+        _v = autotypenumbers if autotypenumbers is not None else _v
+        if _v is not None:
+            self["autotypenumbers"] = _v
         _v = arg.pop("calendar", None)
         _v = calendar if calendar is not None else _v
         if _v is not None:
@@ -3249,6 +3415,10 @@ an instance of :class:`plotly.graph_objs.layout.YAxis`"""
         _v = matches if matches is not None else _v
         if _v is not None:
             self["matches"] = _v
+        _v = arg.pop("minexponent", None)
+        _v = minexponent if minexponent is not None else _v
+        if _v is not None:
+            self["minexponent"] = _v
         _v = arg.pop("mirror", None)
         _v = mirror if mirror is not None else _v
         if _v is not None:
@@ -3377,6 +3547,14 @@ an instance of :class:`plotly.graph_objs.layout.YAxis`"""
         _v = tickformatstopdefaults if tickformatstopdefaults is not None else _v
         if _v is not None:
             self["tickformatstopdefaults"] = _v
+        _v = arg.pop("ticklabelmode", None)
+        _v = ticklabelmode if ticklabelmode is not None else _v
+        if _v is not None:
+            self["ticklabelmode"] = _v
+        _v = arg.pop("ticklabelposition", None)
+        _v = ticklabelposition if ticklabelposition is not None else _v
+        if _v is not None:
+            self["ticklabelposition"] = _v
         _v = arg.pop("ticklen", None)
         _v = ticklen if ticklen is not None else _v
         if _v is not None:
