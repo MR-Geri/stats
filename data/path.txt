@@ -1,5 +1,5 @@
 
-Pycharm; data/icon/pycharm.png; C:\Users\ilyak\AppData\Local\JetBrains\Toolbox\apps\PyCharm-P\ch-0\202.7660.27\bin\pycharm64.exe; True
+Pycharm; data/icon/pycharm.png; C:\Users\ilyak\AppData\Local\JetBrains\Toolbox\apps\PyCharm-P\ch-0\211.7142.13\bin\pycharm64.exe; True
 Discord; data/icon/discord.png; C:\Users\ilyak\AppData\Local\Discord\app-0.0.309\Discord.exe; True
 Adobe After Effects; data/icon/adobe-aftereffects.png; D:\Adobe\"Adobe After Effects CC 2019"\"Support Files"\AfterFX.exe; True
 Adobe Photoshop; data/icon/photoshop.png; D:\Adobe\"Adobe Photoshop CC 2019"\Photoshop.exe; True
@@ -13,3 +13,4 @@ WhatsApp; data/icon/whatsapp.png; C:\Users\ilyak\AppData\Local\WhatsApp\WhatsApp
 Premiere Pro; data/icon/premiere-pro.png; D:\Adobe\"Adobe Premiere Pro 2020"\"Adobe Premiere Pro.exe"; True
 Download; data/icon/download.png; C:\Users\ilyak\Downloads; True
 Папка утилиты; data/icon/bot.png; D:\PycharmProjects\stats\dist\stats; True
+Поиск предметов; data/icon/search.png; D:\PycharmProjects\tarkov\dist\main\main.py; True

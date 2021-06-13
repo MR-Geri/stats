@@ -21,6 +21,8 @@ inf = {"CPU": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
        "Диск H": [250.65, 0, 0, 0],
        "Диск E": [931.51, 0, 0, 0],
        "time": [12, 11, 57, 00]}
+DISK = 'CDGFHE'
+# Вам стоит заполнить inf и DISK теми логическими дисками, которые у вас в системе.
 last_active_windows = ''
 time_of_the_las_passage = datetime.datetime.now()
 reminder_time = datetime.datetime.now()
@@ -36,9 +38,10 @@ RAM_CHART = True
 T_CPU_CHART = True
 T_GPU_CHART = True
 timer = pygame.time.Clock()
-os.environ['SDL_VIDEO_WINDOW_POS'] = '-1080, 1617'
+os.environ['SDL_VIDEO_WINDOW_POS'] = '-1080, 1617'  # Позиция, в которой окно открывается.
+# Для меня это смещение на второй монитор.
 pygame.init()
-display = pygame.display.set_mode((1080, 480))
+display = pygame.display.set_mode((1080, 480))  # Размер окна
 pygame.display.set_caption("Stats")
 pygame.display.set_icon(pygame.image.load("data/icon/stats.ico"))
 
@@ -56,7 +59,7 @@ def info():
             'RAM': [int(i / 1024 / 1024) if i > 101 else int(i) for i in psutil.virtual_memory()],
             'time': [times.days, times.seconds // 3600, (times.seconds % 3600) // 60, (times.seconds % 3600) % 60]
         }
-        for i in 'CDGFHE':
+        for i in DISK:
             disk = [i / 1024 / 1024 / 1024 if i > 101 else i for i in psutil.disk_usage(f'{i}:\\')]
             inf[f'Диск {i}'] = [float('{:.2f}'.format(disk[0])), float('{:.2f}'.format(disk[1])),
                                 float('{:.2f}'.format(disk[2])), int(disk[3])]
